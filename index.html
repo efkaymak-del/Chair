@@ -11,6 +11,7 @@
       background: #f8f9fa;
       color: #333333;
       overflow: hidden;
+      user-select: none; /* Prevents text highlighting when clicking to advance */
     }
     
     .slide-container { position: relative; width: 100vw; height: 100vh; }
@@ -27,12 +28,13 @@
     ul { list-style-type: none; padding-left: 1rem; }
     li::before { content: "•"; color: #6200ea; font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
     .highlight { color: #000000; font-weight: 700; }
-    .footer { position: fixed; bottom: 1.5rem; right: 2rem; font-size: 0.9rem; color: #888888; }
+    .footer { position: fixed; bottom: 1.5rem; right: 2rem; font-size: 0.9rem; color: #888888; z-index: 100;}
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
 
     .qr-container {
       text-align: center; background: #ffffff; padding: 2rem; border-radius: 10px;
       border: 1px solid #d1d1e0; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: inline-block; margin: 0 auto;
+      pointer-events: auto;
     }
     .qr-container img { margin-bottom: 1rem; border: 5px solid white; border-radius: 8px; }
 
@@ -40,10 +42,12 @@
       background: #6200ea; color: #fff; border: none; padding: 1rem 2rem; font-size: 1.2rem;
       font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s, transform 0.1s;
       margin-top: 1rem; box-shadow: 0 2px 8px rgba(98, 0, 234, 0.3); display: inline-block; text-decoration: none;
+      position: relative; z-index: 9999;
     }
     .btn:hover { background: #4527a0; transform: translateY(-2px); }
 
-    .controls { position: fixed; bottom: 1.5rem; left: 2rem; z-index: 100; }
+    /* Forced Controls to the absolute top layer */
+    .controls { position: fixed; bottom: 1.5rem; left: 2rem; z-index: 9999; }
     .controls button {
       background: #ffffff; border: 1px solid #cccccc; color: #555555; font-size: 1.5rem;
       cursor: pointer; padding: 0.5rem 1rem; border-radius: 4px; margin-right: 0.5rem; transition: all 0.2s;
@@ -146,4 +150,71 @@
     <button onclick="prevSlide()">&#8592;</button>
     <button onclick="nextSlide()">&#8594;</button>
   </div>
-  <div class="footer">PSIR Chair Campaign
+  <div class="footer">PSIR Chair Campaign 2026</div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    let isScrolling = false;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) slide.classList.add('active');
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        showSlide(currentSlide);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        showSlide(currentSlide);
+      }
+    }
+
+    // 1. Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // 2. Mouse Scroll Wheel Navigation
+    window.addEventListener('wheel', (e) => {
+      if (isScrolling) return; // Prevent rapid scrolling jumping multiple slides
+      isScrolling = true;
+      
+      if (e.deltaY > 0) nextSlide();
+      else prevSlide();
+      
+      setTimeout(() => { isScrolling = false; }, 500); // Wait half a second before allowing next scroll
+    });
+
+    // 3. Screen Click Navigation (PowerPoint Style)
+    document.addEventListener('click', (e) => {
+      // Don't trigger if they clicked a button, the QR code area, or the controls
+      if (e.target.tagName === 'BUTTON' || e.target.closest('.controls') || e.target.closest('.qr-container')) {
+        return;
+      }
+      
+      // Click right side of screen to go forward, left side to go back
+      if (e.clientX > window.innerWidth / 2) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    });
+
+    // Opens the live Google Sheet demo
+    function openLiveSheet() {
+      const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS10Pufd5BBNgGHuKNx-vX3w-XRLtGJO0p_u3hZNZQJq1zy5_w455pg90bpYw1-HhLfUT2OAc06lDKU/pubhtml";
+      window.open(sheetUrl, '_blank');
+    }
+  </script>
+</body>
+</html>
