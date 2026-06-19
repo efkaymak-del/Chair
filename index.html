@@ -121,7 +121,8 @@
       <h2>Demo: Frictionless Capture</h2>
       <p style="margin-bottom: 2rem;">Please take out your phones and scan. <br>Submit an activity. It takes less than 30 seconds.</p>
       <div class="qr-container">
-        <img src="[https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLSdDqn1BBMOsPy4mCIygKmINnBDtVQbwvfuhAAvESRzbi0B5vw/viewform](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLSdDqn1BBMOsPy4mCIygKmINnBDtVQbwvfuhAAvESRzbi0B5vw/viewform)" alt="QR Code" />
+        <!-- Replaced QR API with QuickChart to avoid ad-blocker filtering -->
+        <img src="https://quickchart.io/qr?text=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdDqn1BBMOsPy4mCIygKmINnBDtVQbwvfuhAAvESRzbi0B5vw%2Fviewform&size=250" alt="QR Code" width="250" height="250" />
         <p style="font-size: 1rem; color: #666; margin-top: 0.5rem;">Scan to log activity</p>
       </div>
     </div>
@@ -205,36 +206,42 @@
       if (e.key === 'ArrowLeft') prevSlide();
     });
 
-    // LIVE DATA FETCH 
+    // LIVE DATA FETCH WITH CORS PROXY
     async function generateReport() {
       const btn = document.querySelector('.btn');
       btn.textContent = "Fetching Live Data...";
       btn.style.background = "#888";
       btn.style.boxShadow = "none";
       
-      const sheetUrl = "[https://docs.google.com/spreadsheets/d/e/2PACX-1vS10Pufd5BBNgGHuKNx-vX3w-XRLtGJO0p_u3hZNZQJq1zy5_w455pg90bpYw1-HhLfUT2OAc06lDKU/pub?output=csv](https://docs.google.com/spreadsheets/d/e/2PACX-1vS10Pufd5BBNgGHuKNx-vX3w-XRLtGJO0p_u3hZNZQJq1zy5_w455pg90bpYw1-HhLfUT2OAc06lDKU/pub?output=csv)"; 
+      const targetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS10Pufd5BBNgGHuKNx-vX3w-XRLtGJO0p_u3hZNZQJq1zy5_w455pg90bpYw1-HhLfUT2OAc06lDKU/pub?output=csv"; 
+      const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl);
       
       try {
-        const response = await fetch(sheetUrl);
+        const response = await fetch(proxyUrl);
         if (!response.ok) throw new Error("Network response was not ok.");
         
         const csvText = await response.text();
-        const rows = csvText.split('\n').map(row => row.split(','));
         
-        const headers = rows.shift(); // Remove headers
+        // Upgraded CSV parser to safely handle commas typed inside the form fields
+        const rowsStr = csvText.trim().split('\n');
+        const headers = rowsStr.shift(); 
+        
         document.getElementById('reportPanel').style.display = 'block';
         btn.style.display = 'none';
         
         const tbody = document.getElementById('reportTableBody');
         tbody.innerHTML = '';
         
-        rows.forEach(row => {
+        rowsStr.forEach(rowStr => {
+          // Regex magic: splits by commas but ignores commas inside double quotes
+          const row = rowStr.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
           if (row.length < 5 || !row[1]) return; 
           
-          const timestamp = row[0].replace(/['"]+/g, '');
-          const name = row[1].replace(/['"]+/g, '');
-          const role = row[2].replace(/['"]+/g, '');
-          const activity = row[3].replace(/['"]+/g, '');
+          // Clean up the quotes around the text
+          const timestamp = row[0].replace(/^"|"$/g, '').trim();
+          const name = row[1].replace(/^"|"$/g, '').trim();
+          const role = row[2].replace(/^"|"$/g, '').trim();
+          const activity = row[3].replace(/^"|"$/g, '').trim();
           const pts = "+10 (Calculated)"; 
 
           tbody.innerHTML += `
@@ -250,7 +257,7 @@
         
       } catch (error) {
         console.error("Fetch failed:", error);
-        btn.textContent = "Error Fetching Data.";
+        btn.textContent = "Error Fetching Data. Check Network.";
         btn.style.background = "#d32f2f";
         document.getElementById('reportStatus').innerText = "❌ Network Error: Could not fetch Google Sheet data.";
         document.getElementById('reportStatus').style.color = "#d32f2f";
