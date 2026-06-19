@@ -39,20 +39,9 @@
     .btn {
       background: #6200ea; color: #fff; border: none; padding: 1rem 2rem; font-size: 1.2rem;
       font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s, transform 0.1s;
-      margin-top: 1rem; box-shadow: 0 2px 8px rgba(98, 0, 234, 0.3);
+      margin-top: 1rem; box-shadow: 0 2px 8px rgba(98, 0, 234, 0.3); display: inline-block; text-decoration: none;
     }
     .btn:hover { background: #4527a0; transform: translateY(-2px); }
-
-    .report-panel {
-      display: none; background: #ffffff; border: 1px solid #d1d1e0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      border-radius: 8px; padding: 1.5rem; margin-top: 2rem; animation: fadeIn 1s;
-      max-height: 400px; overflow-y: auto;
-    }
-    .report-panel table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    .report-panel th, .report-panel td { text-align: left; padding: 0.8rem; border-bottom: 1px solid #eeeeee; font-size: 1.1rem; }
-    .report-panel th { color: #4527a0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .controls { position: fixed; bottom: 1.5rem; left: 2rem; z-index: 100; }
     .controls button {
@@ -121,7 +110,6 @@
       <h2>Demo: Frictionless Capture</h2>
       <p style="margin-bottom: 2rem;">Please take out your phones and scan. <br>Submit an activity. It takes less than 30 seconds.</p>
       <div class="qr-container">
-        <!-- Replaced QR API with QuickChart to avoid ad-blocker filtering -->
         <img src="https://quickchart.io/qr?text=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdDqn1BBMOsPy4mCIygKmINnBDtVQbwvfuhAAvESRzbi0B5vw%2Fviewform&size=250" alt="QR Code" width="250" height="250" />
         <p style="font-size: 1rem; color: #666; margin-top: 0.5rem;">Scan to log activity</p>
       </div>
@@ -130,24 +118,8 @@
     <div class="slide">
       <h2>Demo: The Closed Loop</h2>
       <p>Because the data was captured at the source, responding to the Rectorate or populating the STAR Kanıt Dosyası requires no scramble.</p>
-      <button class="btn" onclick="generateReport()">Generate Accreditation & Workload Report</button>
       
-      <div class="report-panel" id="reportPanel">
-        <p id="reportStatus" style="color: #2e7d32; font-weight: bold; margin-bottom: 1rem;">✓ Real-time synthesis complete. Filed to DKGK Database.</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Timestamp</th>
-              <th>Faculty Member</th>
-              <th>Role</th>
-              <th>Activity Logged</th>
-              <th>Faaliyet Pts</th>
-            </tr>
-          </thead>
-          <tbody id="reportTableBody">
-          </tbody>
-        </table>
-      </div>
+      <button class="btn" onclick="openLiveSheet()">View Live Accreditation Data (Google Sheets)</button>
     </div>
 
     <div class="slide">
@@ -174,96 +146,4 @@
     <button onclick="prevSlide()">&#8592;</button>
     <button onclick="nextSlide()">&#8594;</button>
   </div>
-  <div class="footer">PSIR Chair Campaign 2026</div>
-
-  <script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
-
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.remove('active');
-        if (i === index) slide.classList.add('active');
-      });
-    }
-
-    function nextSlide() {
-      if (currentSlide < slides.length - 1) {
-        currentSlide++;
-        showSlide(currentSlide);
-      }
-    }
-
-    function prevSlide() {
-      if (currentSlide > 0) {
-        currentSlide--;
-        showSlide(currentSlide);
-      }
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
-      if (e.key === 'ArrowLeft') prevSlide();
-    });
-
-    // LIVE DATA FETCH WITH CORS PROXY
-    async function generateReport() {
-      const btn = document.querySelector('.btn');
-      btn.textContent = "Fetching Live Data...";
-      btn.style.background = "#888";
-      btn.style.boxShadow = "none";
-      
-      const targetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS10Pufd5BBNgGHuKNx-vX3w-XRLtGJO0p_u3hZNZQJq1zy5_w455pg90bpYw1-HhLfUT2OAc06lDKU/pub?output=csv"; 
-      const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl);
-      
-      try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error("Network response was not ok.");
-        
-        const csvText = await response.text();
-        
-        // Upgraded CSV parser to safely handle commas typed inside the form fields
-        const rowsStr = csvText.trim().split('\n');
-        const headers = rowsStr.shift(); 
-        
-        document.getElementById('reportPanel').style.display = 'block';
-        btn.style.display = 'none';
-        
-        const tbody = document.getElementById('reportTableBody');
-        tbody.innerHTML = '';
-        
-        rowsStr.forEach(rowStr => {
-          // Regex magic: splits by commas but ignores commas inside double quotes
-          const row = rowStr.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-          if (row.length < 5 || !row[1]) return; 
-          
-          // Clean up the quotes around the text
-          const timestamp = row[0].replace(/^"|"$/g, '').trim();
-          const name = row[1].replace(/^"|"$/g, '').trim();
-          const role = row[2].replace(/^"|"$/g, '').trim();
-          const activity = row[3].replace(/^"|"$/g, '').trim();
-          const pts = "+10 (Calculated)"; 
-
-          tbody.innerHTML += `
-            <tr>
-              <td style="color:#666; font-size: 0.9rem;">${timestamp}</td>
-              <td style="font-weight: 500;">${name}</td>
-              <td style="color:#666;">${role}</td>
-              <td style="color:#222;">${activity}</td>
-              <td style="color:#6200ea; font-weight:bold;">${pts}</td>
-            </tr>
-          `;
-        });
-        
-      } catch (error) {
-        console.error("Fetch failed:", error);
-        btn.textContent = "Error Fetching Data. Check Network.";
-        btn.style.background = "#d32f2f";
-        document.getElementById('reportStatus').innerText = "❌ Network Error: Could not fetch Google Sheet data.";
-        document.getElementById('reportStatus').style.color = "#d32f2f";
-        document.getElementById('reportPanel').style.display = 'block';
-      }
-    }
-  </script>
-</body>
-</html>
+  <div class="footer">PSIR Chair Campaign
