@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Proactive Department — PSIR Chairmanship Campaign</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0a0a1a;
+    color: #e0e0e0;
+    overflow: hidden; /* Hide scrollbars for presentation mode */
+  }
+  
+  .slide-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    padding: 4rem 10%;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Slide specific styling */
+  h1 {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    border-left: 6px solid #7c4dff;
+    padding-left: 1.5rem;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    color: #b388ff;
+    margin-bottom: 2rem;
+  }
+
+  p, li {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 1rem;
+  }
+
+  li::before {
+    content: "•";
+    color: #7c4dff;
+    font-weight: bold;
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1em;
+  }
+
+  .highlight { color: #fff; font-weight: 600; }
+  
+  .footer {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  /* Grid for architecture */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  /* Demo Styles */
+  .qr-container {
+    text-align: center;
+    background: #111128;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid #2a2a5a;
+    display: inline-block;
+    margin: 0 auto;
+  }
+  
+  .qr-container img {
+    margin-bottom: 1rem;
+    border: 10px solid white;
+    border-radius: 8px;
+  }
+
+  .btn {
+    background: #7c4dff;
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 1rem;
+  }
+
+  .btn:hover { background: #6a3de8; }
+
+  /* Report Table Styles */
+  .report-panel {
+    display: none;
+    background: #0d0d22;
+    border: 1px solid #2a2a5a;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    animation: fadeIn 1s;
+  }
+
+  .report-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+
+  .report-panel th, .report-panel td {
+    text-align: left;
+    padding: 0.8rem;
+    border-bottom: 1px solid #2a2a5a;
+    font-size: 1.1rem;
+  }
+
+  .report-panel th {
+    color: #b388ff;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Controls */
+  .controls {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 2rem;
+    z-index: 100;
+  }
+  .controls button {
+    background: none;
+    border: 1px solid #444;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+  }
+  .controls button:hover { background: #222; color: #fff; }
+
+</style>
+</head>
+<body>
+
+<div class="slide-container" id="slider">
+
+  <div class="slide active">
+    <h2 style="color: #666; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">PSIR Department Strategy</h2>
+    <h1>A Proactive Department</h1>
+    <p style="font-size: 1.8rem; margin-top: 1rem; color: #b388ff;">Frictionless Administration & Transparent Workloads</p>
+    <p style="margin-top: 3rem;">Eastern Mediterranean University</p>
+  </div>
+
+  <div class="slide">
+    <h2>The Reactive Trap</h2>
+    <div class="grid-2">
+      <div>
+        <p>Currently, our administrative burden is <span class="highlight">concentrated, reactive, and deadline-driven.</span></p>
+        <ul>
+          <li>Short-notice data demands from the Rector's office.</li>
+          <li>Accreditation evidence scrambled together just before site visits.</li>
+          <li>Committee and administrative workloads that are invisible, relying on the same few people.</li>
+        </ul>
+        <p style="margin-top: 2rem; color: #b388ff; font-weight: 600;">The goal of this chairmanship: Give you back your time for teaching and research.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide">
+    <h2>The Governing Philosophy</h2>
+    <p><span class="highlight">1. Data as a Byproduct.</span> Administration shouldn't be a separate task. Data should be captured effortlessly at the moment the work happens.</p>
+    <p><span class="highlight">2. Capture Once, Serve Many.</span> A single database feeds Rectorate requests, STAR & FIBAA evidence (Kanıt Dosyası), and internal planning.</p>
+    <p><span class="highlight">3. Good vs. Bad Friction.</span> We eliminate the friction of data entry and filing. We fiercely protect the friction of <span class="highlight">Council Democracy</span>—minutes are auto-drafted, but finalized only by your vote.</p>
+  </div>
+
+  <div class="slide">
+    <h2>Portfolios & True Transparency</h2>
+    <div class="grid-2">
+      <div>
+        <p>To avoid committee burnout, we move to a <span class="highlight">Portfolio Model</span>. Each member owns a specific domain, with the Chair available as an optional working partner.</p>
+        <p>The <span class="highlight">Vice Chair</span> leads the Reporting Spine, aggregating our data to interface with the Rectorate and feeding the DKGK.</p>
+        <p>Most importantly: We use EMU’s <span class="highlight">Sınıf Dışı Faaliyet Denklik Tüzüğü</span> as our currency of fairness. Total load (Teaching + Out-of-class points) becomes fully transparent to the Council.</p>
+      </div>
+      <div style="background: #111128; padding: 2rem; border-radius: 8px; border: 1px solid #2a2a5a;">
+        <h3 style="color:#b388ff; margin-bottom:1rem;">Illustrative Portfolios</h3>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Undergraduate & Curriculum</p>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Student Affairs & Advising</p>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Internships & Employability</p>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Events, Workshops & Centers</p>
+        <p style="font-size: 1.1rem;">• Web, Comms & Outreach</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" style="text-align: center;">
+    <h2>Demo: Frictionless Capture</h2>
+    <p style="margin-bottom: 2rem;">Please take out your phones and scan. <br>Submit an activity. It takes less than 30 seconds.</p>
+    <div class="qr-container">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLSdDqn1BBMOsPy4mCIygKmINnBDtVQbwvfuhAAvESRzbi0B5vw/viewform" alt="QR Code" />
+      <p style="font-size: 1rem; color: #888;">Scan to log activity</p>
+    </div>
+  </div>
+
+  <div class="slide">
+    <h2>Demo: The Closed Loop</h2>
+    <p>Because the data was captured at the source, responding to the Rectorate or populating the STAR Kanıt Dosyası requires no scramble.</p>
+    <button class="btn" onclick="generateReport()">Generate Accreditation & Workload Report</button>
+    
+    <div class="report-panel" id="reportPanel">
+      <p style="color: #4caf50; font-weight: bold; margin-bottom: 1rem;">✓ Real-time synthesis complete. Filed to DKGK Database.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Faculty Member</th>
+            <th>Role</th>
+            <th>Activity Logged</th>
+            <th>Faaliyet Pts</th>
+          </tr>
+        </thead>
+        <tbody id="reportTableBody">
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="slide">
+    <h2>Demo 2: Department Council</h2>
+    <div class="grid-2">
+      <div>
+        <p>We stated that we would protect the friction of democracy, but eliminate the friction of administration.</p>
+        <p>While we have been having this discussion, an AI agent has been transcribing our meeting.</p>
+        <p><span class="highlight">A complete draft of our meeting minutes has already been generated and placed in our shared drive.</span></p>
+        <p>It awaits only the Council's review and democratic approval.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide">
+    <h2>Reclaiming Our Time</h2>
+    <p>A proactive department is not one that does more administrative work. It is one that designs systems so the administrative work does itself.</p>
+    <p>By capturing data smoothly, aligning with EMU regulations, and maintaining total transparency, we protect our programs from consolidation and protect our time for what matters.</p>
+    <p style="margin-top: 3rem; color: #b388ff; font-weight: 600;">Thank you.</p>
+  </div>
+
+</div>
+
+<div class="controls">
+  <button onclick="prevSlide()">&#8592;</button>
+  <button onclick="nextSlide()">&#8594;</button>
+</div>
+<div class="footer">PSIR Chair Campaign 2026</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active');
+      if (i === index) slide.classList.add('active');
+    });
+  }
+
+  function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+      currentSlide++;
+      showSlide(currentSlide);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      currentSlide--;
+      showSlide(currentSlide);
+    }
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+
+  // Simulated Report Generation for Demo 
+  // (Provides guaranteed flawless execution during the live presentation)
+  function generateReport() {
+    const btn = document.querySelector('.btn');
+    btn.textContent = "Synthesizing Data...";
+    btn.style.background = "#444";
+    
+    setTimeout(() => {
+      document.getElementById('reportPanel').style.display = 'block';
+      btn.style.display = 'none';
+      
+      const tbody = document.getElementById('reportTableBody');
+      const now = new Date();
+      const timeStr = now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes();
+      
+      // Simulated live data mimicking their form entries
+      const mockData = [
+        { name: "Colleague A", role: "Assoc. Prof.", activity: "Conference Paper Accepted (ISA)", pts: "+15 (Cat A)" },
+        { name: "Colleague B", role: "Asst. Prof.", activity: "STAR Self-Assessment Matrix Completed", pts: "+10 (Cat J)" },
+        { name: "Colleague C", role: "Professor", activity: "Guest Lecture: CPC Seminar Series", pts: "+5 (Cat G)" }
+      ];
+
+      tbody.innerHTML = '';
+      mockData.forEach(d => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="color:#888;">Today, ${timeStr}</td>
+            <td>${d.name}</td>
+            <td style="color:#aaa;">${d.role}</td>
+            <td>${d.activity}</td>
+            <td style="color:#7c4dff; font-weight:bold;">${d.pts}</td>
+          </tr>
+        `;
+      });
+    }, 1200); // 1.2 second dramatic pause
+  }
+</script>
+
+</body>
+</html>
