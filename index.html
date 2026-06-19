@@ -8,8 +8,8 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: #0a0a1a;
-    color: #e0e0e0;
+    background: #f8f9fa; /* Light clean background */
+    color: #333333; /* Dark gray text for readability */
     overflow: hidden; /* Hide scrollbars for presentation mode */
   }
   
@@ -40,22 +40,22 @@
   /* Slide specific styling */
   h1 {
     font-size: 3.5rem;
-    color: #fff;
+    color: #1a1a1a;
     margin-bottom: 1rem;
-    border-left: 6px solid #7c4dff;
+    border-left: 6px solid #6200ea; /* Deep royal purple accent */
     padding-left: 1.5rem;
   }
 
   h2 {
     font-size: 2.5rem;
-    color: #b388ff;
+    color: #4527a0; /* Darker purple for headings */
     margin-bottom: 2rem;
   }
 
   p, li {
     font-size: 1.3rem;
     line-height: 1.6;
-    color: #ccc;
+    color: #444444;
     margin-bottom: 1rem;
   }
 
@@ -66,21 +66,21 @@
 
   li::before {
     content: "•";
-    color: #7c4dff;
+    color: #6200ea;
     font-weight: bold;
     display: inline-block; 
     width: 1em;
     margin-left: -1em;
   }
 
-  .highlight { color: #fff; font-weight: 600; }
+  .highlight { color: #000000; font-weight: 700; }
   
   .footer {
     position: fixed;
     bottom: 1.5rem;
     right: 2rem;
     font-size: 0.9rem;
-    color: #555;
+    color: #888888;
   }
 
   /* Grid for architecture */
@@ -94,22 +94,23 @@
   /* Demo Styles */
   .qr-container {
     text-align: center;
-    background: #111128;
+    background: #ffffff;
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid #2a2a5a;
+    border: 1px solid #d1d1e0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     display: inline-block;
     margin: 0 auto;
   }
   
   .qr-container img {
     margin-bottom: 1rem;
-    border: 10px solid white;
+    border: 5px solid white;
     border-radius: 8px;
   }
 
   .btn {
-    background: #7c4dff;
+    background: #6200ea;
     color: #fff;
     border: none;
     padding: 1rem 2rem;
@@ -117,17 +118,22 @@
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
     margin-top: 1rem;
+    box-shadow: 0 2px 8px rgba(98, 0, 234, 0.3);
   }
 
-  .btn:hover { background: #6a3de8; }
+  .btn:hover { 
+    background: #4527a0; 
+    transform: translateY(-2px);
+  }
 
   /* Report Table Styles */
   .report-panel {
     display: none;
-    background: #0d0d22;
-    border: 1px solid #2a2a5a;
+    background: #ffffff;
+    border: 1px solid #d1d1e0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     border-radius: 8px;
     padding: 1.5rem;
     margin-top: 2rem;
@@ -143,12 +149,12 @@
   .report-panel th, .report-panel td {
     text-align: left;
     padding: 0.8rem;
-    border-bottom: 1px solid #2a2a5a;
+    border-bottom: 1px solid #eeeeee;
     font-size: 1.1rem;
   }
 
   .report-panel th {
-    color: #b388ff;
+    color: #4527a0;
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
@@ -167,16 +173,29 @@
     z-index: 100;
   }
   .controls button {
-    background: none;
-    border: 1px solid #444;
-    color: #888;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    color: #555555;
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     margin-right: 0.5rem;
+    transition: all 0.2s;
   }
-  .controls button:hover { background: #222; color: #fff; }
+  .controls button:hover { 
+    background: #eeeeee; 
+    color: #000; 
+  }
+
+  /* Custom box for illustrative portfolios */
+  .portfolio-box {
+    background: #ffffff; 
+    padding: 2rem; 
+    border-radius: 8px; 
+    border: 1px solid #d1d1e0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
 
 </style>
 </head>
@@ -187,8 +206,8 @@
   <div class="slide active">
     <h2 style="color: #666; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">PSIR Department Strategy</h2>
     <h1>A Proactive Department</h1>
-    <p style="font-size: 1.8rem; margin-top: 1rem; color: #b388ff;">Frictionless Administration & Transparent Workloads</p>
-    <p style="margin-top: 3rem;">Eastern Mediterranean University</p>
+    <p style="font-size: 1.8rem; margin-top: 1rem; color: #4527a0; font-weight: 600;">Frictionless Administration & Transparent Workloads</p>
+    <p style="margin-top: 3rem; color: #666;">Eastern Mediterranean University</p>
   </div>
 
   <div class="slide">
@@ -201,7 +220,7 @@
           <li>Accreditation evidence scrambled together just before site visits.</li>
           <li>Committee and administrative workloads that are invisible, relying on the same few people.</li>
         </ul>
-        <p style="margin-top: 2rem; color: #b388ff; font-weight: 600;">The goal of this chairmanship: Give you back your time for teaching and research.</p>
+        <p style="margin-top: 2rem; color: #4527a0; font-weight: 600;">The goal of this chairmanship: Give you back your time for teaching and research.</p>
       </div>
     </div>
   </div>
@@ -221,13 +240,13 @@
         <p>The <span class="highlight">Vice Chair</span> leads the Reporting Spine, aggregating our data to interface with the Rectorate and feeding the DKGK.</p>
         <p>Most importantly: We use EMU’s <span class="highlight">Sınıf Dışı Faaliyet Denklik Tüzüğü</span> as our currency of fairness. Total load (Teaching + Out-of-class points) becomes fully transparent to the Council.</p>
       </div>
-      <div style="background: #111128; padding: 2rem; border-radius: 8px; border: 1px solid #2a2a5a;">
-        <h3 style="color:#b388ff; margin-bottom:1rem;">Illustrative Portfolios</h3>
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Undergraduate & Curriculum</p>
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Student Affairs & Advising</p>
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Internships & Employability</p>
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">• Events, Workshops & Centers</p>
-        <p style="font-size: 1.1rem;">• Web, Comms & Outreach</p>
+      <div class="portfolio-box">
+        <h3 style="color:#4527a0; margin-bottom:1rem; font-size: 1.4rem;">Illustrative Portfolios</h3>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #444;">• Undergraduate & Curriculum</p>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #444;">• Student Affairs & Advising</p>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #444;">• Internships & Employability</p>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #444;">• Events, Workshops & Centers</p>
+        <p style="font-size: 1.1rem; color: #444;">• Web, Comms & Outreach</p>
       </div>
     </div>
   </div>
@@ -237,7 +256,7 @@
     <p style="margin-bottom: 2rem;">Please take out your phones and scan. <br>Submit an activity. It takes less than 30 seconds.</p>
     <div class="qr-container">
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://docs.google.com/forms/d/e/1FAIpQLSdDqn1BBMOsPy4mCIygKmINnBDtVQbwvfuhAAvESRzbi0B5vw/viewform" alt="QR Code" />
-      <p style="font-size: 1rem; color: #888;">Scan to log activity</p>
+      <p style="font-size: 1rem; color: #666; margin-top: 0.5rem;">Scan to log activity</p>
     </div>
   </div>
 
@@ -247,7 +266,7 @@
     <button class="btn" onclick="generateReport()">Generate Accreditation & Workload Report</button>
     
     <div class="report-panel" id="reportPanel">
-      <p style="color: #4caf50; font-weight: bold; margin-bottom: 1rem;">✓ Real-time synthesis complete. Filed to DKGK Database.</p>
+      <p style="color: #2e7d32; font-weight: bold; margin-bottom: 1rem;">✓ Real-time synthesis complete. Filed to DKGK Database.</p>
       <table>
         <thead>
           <tr>
@@ -280,7 +299,7 @@
     <h2>Reclaiming Our Time</h2>
     <p>A proactive department is not one that does more administrative work. It is one that designs systems so the administrative work does itself.</p>
     <p>By capturing data smoothly, aligning with EMU regulations, and maintaining total transparency, we protect our programs from consolidation and protect our time for what matters.</p>
-    <p style="margin-top: 3rem; color: #b388ff; font-weight: 600;">Thank you.</p>
+    <p style="margin-top: 3rem; color: #4527a0; font-weight: bold; font-size: 1.5rem;">Thank you.</p>
   </div>
 
 </div>
@@ -327,7 +346,8 @@
   function generateReport() {
     const btn = document.querySelector('.btn');
     btn.textContent = "Synthesizing Data...";
-    btn.style.background = "#444";
+    btn.style.background = "#888";
+    btn.style.boxShadow = "none";
     
     setTimeout(() => {
       document.getElementById('reportPanel').style.display = 'block';
@@ -348,11 +368,11 @@
       mockData.forEach(d => {
         tbody.innerHTML += `
           <tr>
-            <td style="color:#888;">Today, ${timeStr}</td>
-            <td>${d.name}</td>
-            <td style="color:#aaa;">${d.role}</td>
-            <td>${d.activity}</td>
-            <td style="color:#7c4dff; font-weight:bold;">${d.pts}</td>
+            <td style="color:#666;">Today, ${timeStr}</td>
+            <td style="font-weight: 500;">${d.name}</td>
+            <td style="color:#666;">${d.role}</td>
+            <td style="color:#222;">${d.activity}</td>
+            <td style="color:#6200ea; font-weight:bold;">${d.pts}</td>
           </tr>
         `;
       });
@@ -361,4 +381,5 @@
 </script>
 
 </body>
+</html>
 </html>
