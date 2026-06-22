@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSIR Department — Strategy</title>
+<style>
+  :root{
+    --navy:#0f2747;--navy-soft:#1d3b63;--ink:#1a1a1a;--muted:#5a6573;
+    --line:#d8dee7;--bg:#ffffff;--accent:#7d6608;--panel:#f5f7fa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:var(--bg);overflow:hidden;}
+  .deck{height:100vh;width:100vw;position:relative;}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:6vh 9vw;animation:fade .4s ease;}
+  .slide.active{display:flex;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  h1{font-size:3rem;line-height:1.15;color:var(--navy);margin-bottom:1rem;}
+  h2{font-size:2.1rem;color:var(--navy);margin-bottom:1.6rem;border-bottom:2px solid var(--line);padding-bottom:.6rem;}
+  h3{font-size:1.15rem;color:var(--navy-soft);margin:1.2rem 0 .5rem;letter-spacing:.02em;}
+  p{font-size:1.25rem;line-height:1.6;color:var(--ink);margin-bottom:1rem;max-width:60ch;}
+  .sub{font-size:1.4rem;color:var(--muted);font-style:italic;}
+  ul{margin:.4rem 0 1rem 1.4rem;}
+  li{font-size:1.2rem;line-height:1.55;margin-bottom:.6rem;max-width:62ch;}
+  .lead{font-size:1.45rem;color:var(--navy-soft);font-style:italic;margin-bottom:1.4rem;}
+  .kicker{font-size:.95rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1.4rem 1.6rem;}
+  .panel h3{margin-top:0;}
+  .demo-cue{display:inline-block;margin-top:.6rem;font-size:.98rem;color:#fff;background:var(--navy);padding:.5rem 1rem;border-radius:6px;letter-spacing:.02em;}
+  .demo-cue a{color:#fff;text-decoration:none;}
+  .demo-row{margin-bottom:1.1rem;}
+  .demo-row .tag{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+  .demo-row .desc{font-size:1.12rem;color:var(--ink);max-width:64ch;margin:.2rem 0 .35rem;}
+  .open-q{border-left:4px solid var(--accent);padding:.4rem 0 .4rem 1.2rem;margin-bottom:1.3rem;}
+  .open-q .q{font-size:1.25rem;color:var(--navy);margin-bottom:.35rem;}
+  .open-q .lean{font-size:1.05rem;color:var(--muted);font-style:italic;}
+  .footer{position:absolute;bottom:2.4vh;left:9vw;right:9vw;display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);letter-spacing:.04em;}
+  .bar{position:absolute;top:0;left:0;height:4px;background:var(--navy);transition:width .3s;}
+  .nav-hint{position:absolute;bottom:2.4vh;left:50%;transform:translateX(-50%);font-size:.8rem;color:var(--line);}
+  .center{align-items:center;text-align:center;}
+  .center p,.center h1{max-width:none;}
+  .qr{width:300px;height:300px;border:1px solid var(--line);border-radius:8px;margin:1rem auto;display:block;}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="bar" id="bar"></div>
+
+  <!-- 1 -->
+  <section class="slide active center">
+    <p class="kicker">Eastern Mediterranean University</p>
+    <h1>Department of Political Science<br>&amp; International Relations</h1>
+    <p class="sub">A Strategy for the Coming Term</p>
+    <p style="margin-top:2rem;color:var(--muted);">[Your name] · Candidate for Chair</p>
+  </section>
+
+  <!-- 2 — STAKES -->
+  <section class="slide">
+    <p class="kicker">The Stakes</p>
+    <h2>Why Proactive, Why Now</h2>
+    <p class="lead">Declining enrollment is the threat behind every other problem we face.</p>
+    <p>Falling numbers invite top-down consolidation. A department that looks reactive, opaque, and under-subscribed makes itself a candidate for it.</p>
+    <p>The answer is not to work harder inside the old reactive cycle. It is to become visibly proactive, efficient, and interdisciplinary — to make ourselves indispensable.</p>
+  </section>
+
+  <!-- 3 — THE REACTIVE TRAP -->
+  <section class="slide">
+    <p class="kicker">The Problem We Inherit</p>
+    <h2>The Reactive Trap</h2>
+    <ul>
+      <li>Short-notice data demands from the Rector's office.</li>
+      <li>Accreditation evidence scrambled together just before site visits.</li>
+      <li>Committee and administrative loads that are invisible — and fall on the same few people.</li>
+    </ul>
+    <p>This is not anyone's failing. It is a system that forces good colleagues into permanent firefighting. Our task is to redesign the system, not blame the firefighters.</p>
+  </section>
+
+  <!-- 4 — THESIS -->
+  <section class="slide">
+    <p class="kicker">Thesis</p>
+    <h2>Record Once. Report Many.</h2>
+    <p>We already report the same facts to four masters — STAR, the Rector's Faaliyet criteria, YÖK, and our own planning.</p>
+    <p>Capture that information <em>once</em>, at the moment the work happens, and a single pool serves all four. The drudgery disappears; the evidence accumulates by itself.</p>
+  </section>
+
+  <!-- 5 — PHILOSOPHY -->
+  <section class="slide">
+    <p class="kicker">Governing Philosophy</p>
+    <h2>Good Friction vs. Bad Friction</h2>
+    <div class="two-col">
+      <div class="panel"><h3>We eliminate</h3><p>The friction of data entry, formatting, filing, and chasing information before a deadline.</p></div>
+      <div class="panel"><h3>We protect</h3><p>The friction of Council democracy. Minutes may be auto-drafted, but become official only by our review and our vote.</p></div>
+    </div>
+    <p style="margin-top:1.6rem;">I am not removing every step — only the steps that do not deserve our judgement.</p>
+  </section>
+
+  <!-- 6 — PILLAR I -->
+  <section class="slide">
+    <p class="kicker">Pillar I · Administrative Capacity</p>
+    <h2>This Already Works</h2>
+    <p>Our 2024–2025 YÖK inspection dossier is built and live: nine courses, with syllabi, assessments, rubrics, gradebooks and attendance — retrievable in seconds.</p>
+    <p>Not a promise. A working model of "record once, report many," ready to extend to STAR and the Faaliyet criteria.</p>
+    <span class="demo-cue">→ Show live: <a href="https://efkaymak-del.github.io/YOK-2024-2025/" target="_blank">YÖK 2024–2025 dossier</a></span>
+  </section>
+
+  <!-- 7 — CAPTURE DEMO -->
+  <section class="slide center">
+    <p class="kicker">Live Demo</p>
+    <h2 style="border:none;">Frictionless Capture</h2>
+    <p>Please take out your phones and scan. Log an activity — under 30 seconds.</p>
+    <img class="qr" alt="QR code to activity form"
+      src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://docs.google.com/forms/d/e/1FAIpQLSdDqn1BBMOsPy4mCIygKmINnBDtVQbwvfuhAAvESRzbi0B5vw/viewform">
+    <p class="sub">Every scan becomes a row of evidence — captured at the source.</p>
+  </section>
+
+  <!-- 8 — OUR SIZE IS OUR STRENGTH (RETENTION) -->
+  <section class="slide">
+    <p class="kicker">Retention · Our Competitive Edge</p>
+    <h2>Our Size Is Our Strength</h2>
+    <p>We cannot out-scale the large quantitative departments. We can out-care them.</p>
+    <ul>
+      <li>Knowing each student's name builds agency — and agency, in my experience, predicts outcomes.</li>
+      <li>Retention is won or lost in the gateway courses. We must be on top of attendance early, and follow up with care, not punishment.</li>
+      <li>To attract students to our electives, our courses must be at once less threatening and more enticing.</li>
+    </ul>
+  </section>
+
+  <!-- 9 — PILLAR II (TEACHING / 3 DEMOS) -->
+  <section class="slide">
+    <p class="kicker">Pillar II · Teaching Capacity</p>
+    <h2>Scaffolded, Practice-Linked Learning</h2>
+    <div class="demo-row">
+      <div class="tag">Gateway engagement &amp; retention</div>
+      <div class="desc">PSIR 101 Environment Lab — a gamified, low-threat entry point that makes a first-year survey course inviting rather than intimidating.</div>
+      <span class="demo-cue">→ Show live: <a href="https://efkaymak-del.github.io/PSIR101/environment.html" target="_blank">Environment Lab</a></span>
+    </div>
+    <div class="demo-row">
+      <div class="tag">Upper-year depth &amp; theory-to-practice</div>
+      <div class="desc">The Dworkin Auction — students live equality-of-resources: bidding, the envy test, brute vs. option luck, ending in a personal values profile.</div>
+      <span class="demo-cue">→ Show live: <a href="https://efkaymak-del.github.io/PSIR308/dworkin/" target="_blank">Dworkin Auction</a></span>
+    </div>
+    <div class="demo-row">
+      <div class="tag">Applied judgement on real conflicts</div>
+      <div class="desc">"The Boundary" — Kymlicka's multiculturalism scaffolded toward each student's own reasoned position.</div>
+      <span class="demo-cue">→ Show live: PSIR 308 · "The Boundary"</span>
+    </div>
+  </section>
+
+  <!-- 10 — PILLAR III (INTERDISCIPLINARY + TA ARGUMENT) -->
+  <section class="slide">
+    <p class="kicker">Pillar III · Interdisciplinary Horizon</p>
+    <h2>An Invitation, With a Dividend</h2>
+    <p>Declining numbers are best answered by sharing resources, not defending silos. Our IPE teaching already bridges politics, economics and international relations — a natural basis for a shared minor or certificate with the Faculty of Business and Economics.</p>
+    <p>It is an <em>invitation</em> requiring the Dean's and other chairs' partnership. But it also pays a concrete dividend: curricular reform that adds tutorial hours helps us justify the Teaching Assistant assignments we currently lack — working smarter, not just harder.</p>
+  </section>
+
+  <!-- 11 — GOVERNANCE: FIXED -->
+  <section class="slide">
+    <p class="kicker">Governance · What Is Settled</p>
+    <h2>Committees Decide; Portfolios Feed</h2>
+    <p>Some bodies are fixed by Council decision and stay as they are:</p>
+    <ul>
+      <li>The accreditation committee (DKGK), which owns our STAR evidence file (Kanıt Dosyası).</li>
+      <li>The external Advisory Board (Danışma Kurulu) and the Öğrenim Güvence Komitesi.</li>
+      <li>The standing Graduate Affairs Committee for MA/PhD admissions.</li>
+    </ul>
+    <p>New portfolios do not replace these. They are tributaries: each captures its domain's data, which flows up into the evidence file the committees curate.</p>
+  </section>
+
+  <!-- 12 — GOVERNANCE: OPEN CHOICES -->
+  <section class="slide">
+    <p class="kicker">Governance · For the Council to Decide</p>
+    <h2>Open Questions — Not Decrees</h2>
+    <div class="open-q">
+      <div class="q">1. Should the Vice Chair and the head of the DKGK be the same person?</div>
+      <div class="lean">Consolidation gives one clean reporting spine; separation gives quality assurance more independence. My leaning: consolidate — but this is the Council's call.</div>
+    </div>
+    <div class="open-q">
+      <div class="q">2. How do we distribute portfolios fairly?</div>
+      <div class="lean">Each member owns one; pairing with the Chair is voluntary; total load stays visible via the EMU Faaliyet metric.</div>
+    </div>
+    <div class="open-q">
+      <div class="q">3. Who carries our Faculty-facing roles — curriculum representative, Dean's-office liaison?</div>
+      <div class="lean">These need not all sit inside the department. We will assign them deliberately, together.</div>
+    </div>
+  </section>
+
+  <!-- 13 — TRANSPARENCY -->
+  <section class="slide">
+    <p class="kicker">Our Brand</p>
+    <h2>Transparency as Fairness</h2>
+    <p>When every role and activity is recorded and visible, workload stops being a matter of impression and becomes a matter of fact.</p>
+    <p>Using EMU's Sınıf Dışı Faaliyet Denklik Tüzüğü as our shared currency, the Council can see — and balance — teaching, administrative and committee loads together. Some colleagues have long carried more than their share. A transparent system is how we put that right.</p>
+  </section>
+
+  <!-- 14 — MINUTES DEMO -->
+  <section class="slide">
+    <p class="kicker">Live Demo</p>
+    <h2>The Council's Own Record</h2>
+    <p>While we have been talking, our discussion has been quietly transcribed.</p>
+    <p>A complete draft of today's minutes — and even draft Council decisions in STAR form — can be generated and filed in our shared drive in moments.</p>
+    <p class="lead">It awaits only one thing: the Council's review and democratic approval.</p>
+  </section>
+
+  <!-- 15 — PLEDGE / CLOSE -->
+  <section class="slide">
+    <p class="kicker">My Commitment</p>
+    <h2>Leadership by Example</h2>
+    <p>I will not ask of colleagues what I will not give first.</p>
+    <ul>
+      <li>I will fill our instructor quotas as the first priority, then teach as many graduate courses — at discount where needed — as it takes to keep our programs alive.</li>
+      <li>I will help monitor attendance and join the effort to reach students who are slipping.</li>
+      <li>I will join students beyond the classroom — projects, trips, and the work that builds belonging.</li>
+    </ul>
+    <p>I cannot do it all alone. But I can build the framework, and carry my share of the load.</p>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide center">
+    <h1 style="border:none;">Thank you.</h1>
+    <p class="sub">I welcome your questions — and your judgement.</p>
+  </section>
+
+  <div class="nav-hint">← / → to navigate</div>
+  <div class="footer">
+    <span>PSIR · Eastern Mediterranean University</span>
+    <span id="counter">1 / 16</span>
+  </div>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  const bar=document.getElementById('bar');
+  const counter=document.getElementById('counter');
+  function show(n){
+    slides[i].classList.remove('active');
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides[i].classList.add('active');
+    bar.style.width=((i+1)/slides.length*100)+'%';
+    counter.textContent=(i+1)+' / '+slides.length;
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')show(i+1);
+    if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
+    if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);
+  });
+  document.getElementById('deck').addEventListener('click',e=>{
+    if(e.target.closest('a'))return;show(i+1);
+  });
+  show(0);
+</script>
+</body>
+</html>
