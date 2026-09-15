@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI &amp; Pedagogy — Department Seminar</title>
+<style>
+/* ── Reset & Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:18px;scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0b1120;color:#e2e8f0;overflow:hidden;height:100vh;width:100vw}
+
+/* ── Slide Engine ── */
+.deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:3rem 4rem;opacity:0;pointer-events:none;transition:opacity .45s ease,transform .45s ease;transform:translateX(40px)}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.exit{opacity:0;transform:translateX(-40px)}
+
+/* ── Typography ── */
+h1{font-size:2.6rem;font-weight:700;line-height:1.15;margin-bottom:.6rem;color:#fff}
+h2{font-size:2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;color:#fff}
+h3{font-size:1.5rem;font-weight:600;line-height:1.25;margin-bottom:.4rem;color:#c5cee0}
+p,.desc{font-size:1.05rem;line-height:1.65;color:#94a3b8;max-width:52rem}
+.accent{color:#60a5fa}
+.accent-green{color:#34d399}
+.accent-amber{color:#fbbf24}
+.accent-red{color:#f87171}
+.accent-purple{color:#a78bfa}
+.small{font-size:.85rem;color:#64748b}
+blockquote{border-left:3px solid #60a5fa;padding:.8rem 1.2rem;margin:1rem 0;background:rgba(96,165,250,.07);border-radius:0 8px 8px 0;font-style:italic;color:#cbd5e1;max-width:52rem}
+blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.85rem;color:#60a5fa}
+
+/* ── Layout helpers ── */
+.center{text-align:center}
+.left{text-align:left;align-items:flex-start}
+.wide{max-width:64rem;width:100%}
+.gap-1{gap:1rem}.gap-2{gap:2rem}
+.mt-1{margin-top:1rem}.mt-2{margin-top:2rem}.mt-3{margin-top:3rem}
+.mb-1{margin-bottom:1rem}
+.flex{display:flex;flex-wrap:wrap}
+.col{flex-direction:column}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;width:100%;max-width:56rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;width:100%;max-width:60rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:64rem}
+
+/* ── Cards ── */
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.4rem 1.6rem}
+.card h3{font-size:1.15rem;margin-bottom:.5rem}
+.card p{font-size:.95rem}
+.card.glow-blue{border-color:rgba(96,165,250,.3);box-shadow:0 0 20px rgba(96,165,250,.06)}
+.card.glow-green{border-color:rgba(52,211,153,.3);box-shadow:0 0 20px rgba(52,211,153,.06)}
+.card.glow-amber{border-color:rgba(251,191,36,.3);box-shadow:0 0 20px rgba(251,191,36,.06)}
+.card.glow-red{border-color:rgba(248,113,113,.3);box-shadow:0 0 20px rgba(248,113,113,.06)}
+.card.glow-purple{border-color:rgba(167,139,250,.3);box-shadow:0 0 20px rgba(167,139,250,.06)}
+
+/* ── Stat blocks ── */
+.stat{text-align:center;padding:1rem}
+.stat .num{font-size:2.8rem;font-weight:800;line-height:1}
+.stat .label{font-size:.85rem;color:#94a3b8;margin-top:.3rem}
+
+/* ── Tags / Badges ── */
+.tag{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.78rem;font-weight:600;margin:.2rem}
+.tag-blue{background:rgba(96,165,250,.15);color:#60a5fa}
+.tag-green{background:rgba(52,211,153,.15);color:#34d399}
+.tag-amber{background:rgba(251,191,36,.15);color:#fbbf24}
+.tag-red{background:rgba(248,113,113,.15);color:#f87171}
+.tag-purple{background:rgba(167,139,250,.15);color:#a78bfa}
+
+/* ── Tier table ── */
+.tier{display:grid;grid-template-columns:auto 1fr 1fr;gap:0;width:100%;max-width:56rem;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.tier-cell{padding:.9rem 1.1rem;font-size:.92rem;line-height:1.5;border-bottom:1px solid rgba(255,255,255,.06)}
+.tier-cell:nth-child(3n+1){font-weight:700;min-width:8rem}
+.tier-head{background:rgba(255,255,255,.06);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;color:#94a3b8}
+.tier-green{background:rgba(52,211,153,.06)}.tier-amber{background:rgba(251,191,36,.06)}.tier-red{background:rgba(248,113,113,.06)}
+
+/* ── Section labels ── */
+.section-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.6rem}
+.section-label.blue{color:#60a5fa}.section-label.green{color:#34d399}.section-label.amber{color:#fbbf24}.section-label.purple{color:#a78bfa}.section-label.red{color:#f87171}
+
+/* ── Progress bar ── */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#60a5fa,#a78bfa);z-index:100;transition:width .3s ease}
+
+/* ── Slide counter ── */
+.slide-counter{position:fixed;bottom:1.2rem;right:1.5rem;font-size:.8rem;color:#475569;z-index:100;font-variant-numeric:tabular-nums}
+
+/* ── Nav hint ── */
+.nav-hint{position:fixed;bottom:1.2rem;left:1.5rem;font-size:.75rem;color:#334155;z-index:100}
+
+/* ── QR placeholder ── */
+.qr-box{width:260px;height:260px;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:1.5rem auto}
+.qr-box img{width:240px;height:240px}
+.qr-box .qr-placeholder{color:#0b1120;font-size:.85rem;text-align:center;padding:1rem;font-weight:600}
+
+/* ── Discussion prompt ── */
+.discussion{background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.2);border-radius:16px;padding:2rem 2.4rem;max-width:50rem;width:100%}
+.discussion h3{color:#60a5fa;margin-bottom:.8rem}
+.discussion p{color:#cbd5e1;font-size:1.1rem;line-height:1.7}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .slide{padding:2rem 1.5rem}
+  h1{font-size:1.8rem}h2{font-size:1.5rem}h3{font-size:1.2rem}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .tier{grid-template-columns:1fr;font-size:.85rem}
+  .stat .num{font-size:2rem}
+}
+@media(max-width:520px){
+  .slide{padding:1.5rem 1rem}
+  h1{font-size:1.5rem}h2{font-size:1.3rem}
+  .qr-box{width:200px;height:200px}
+  .qr-box img,.qr-box .qr-placeholder{width:180px;height:180px}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-counter" id="slideCounter"></div>
+<div class="nav-hint">← → or tap edges to navigate</div>
+
+<div class="deck" id="deck">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1 — Title -->
+<!-- ============================================================ -->
+<div class="slide center" data-section="opening">
+  <div class="section-label blue">Department Seminar · September 2026</div>
+  <h1>AI &amp; Pedagogy</h1>
+  <h3 style="color:#94a3b8;font-weight:400">From Policy to Practice in Political Science Education</h3>
+  <div class="mt-2" style="color:#64748b;font-size:.95rem">
+    <p>Prof. Dr. Erol Kaymak</p>
+    <p style="margin-top:.3rem">Department of Political Science &amp; International Relations</p>
+    <p>Faculty of Business &amp; Economics · Eastern Mediterranean University</p>
+  </div>
+  <div class="mt-3 small">Press → or tap right edge to begin</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2 — QR Code / Live Poll -->
+<!-- ============================================================ -->
+<div class="slide center" data-section="opening">
+  <div class="section-label blue">Before We Start</div>
+  <h2>Scan &amp; Share</h2>
+  <p class="mt-1">Four quick questions about your experience with AI.<br>Results will appear live during the session.</p>
+  <div class="qr-box mt-2">
+    <div class="qr-placeholder">[ Insert QR code image here — link to Google Form ]</div>
+  </div>
+  <p class="small mt-1">Or open the link: <span class="accent">[Google Form short URL]</span></p>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3 — Why Now -->
+<!-- ============================================================ -->
+<div class="slide left" data-section="opening">
+  <div class="section-label blue">Why This Seminar, Why Now</div>
+  <h2>Three Converging Pressures</h2>
+  <div class="grid-3 mt-2">
+    <div class="card glow-blue">
+      <h3><span class="accent">FIBAA</span></h3>
+      <p>AI use has been classified as an <strong>at-risk criterion</strong> in the new accreditation cycle. Our response must be documented.</p>
+    </div>
+    <div class="card glow-amber">
+      <h3><span class="accent-amber">Faculty Board</span></h3>
+      <p>The Faculty Board discussed AI policy on 14 September. The Faculty Council will take up the matter on Thursday.</p>
+    </div>
+    <div class="card glow-green">
+      <h3><span class="accent-green">Our Department</span></h3>
+      <p>Department Council, 14 September: an AI use policy "can no longer be postponed" — <em>artık ertelenemez</em>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4 — Roadmap -->
+<!-- ============================================================ -->
+<div class="slide center" data-section="opening">
+  <div class="section-label blue">Roadmap</div>
+  <h2>Where We're Going</h2>
+  <div class="flex gap-2 mt-2" style="justify-content:center;flex-wrap:wrap">
+    <div class="tag tag-blue">1 · The Problem</div>
+    <div class="tag tag-green">2 · Pedagogy Taxonomy</div>
+    <div class="tag tag-purple">3 · Entry Points</div>
+    <div class="tag tag-amber">4 · Policy Framework</div>
+    <div class="tag tag-red">5 · Admin &amp; Tools</div>
+    <div class="tag tag-blue">6 · Discussion</div>
+  </div>
+  <p class="mt-2" style="max-width:40rem">The seminar itself is built as a single-page interactive HTML application — hosted on GitHub Pages — assembled through conversation with an AI. The medium is part of the message.</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 1 — THE PROBLEM -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 5 — Scale of Disruption -->
+<div class="slide left" data-section="problem">
+  <div class="section-label red">Act 1 · The Problem</div>
+  <h2>The Scale of Disruption</h2>
+  <blockquote>
+    AI can now "produce credible solutions and provide reasonable responses to almost any written assignment," including essays, math problems, proofs, and coding assignments.
+    <cite>— MIT Committee on AI and Education, August 2026</cite>
+  </blockquote>
+  <div class="grid-3 mt-2">
+    <div class="stat"><div class="num accent">1B+</div><div class="label">ChatGPT users in under 4 years</div></div>
+    <div class="stat"><div class="num accent-amber">73%</div><div class="label">US faculty who have dealt with AI integrity issues</div></div>
+    <div class="stat"><div class="num accent-red">20%</div><div class="label">of institutions that have issued AI policies</div></div>
+  </div>
+  <p class="small mt-1">Sources: MIT AI &amp; Education Report 2026; AAC&amp;U Survey Jan 2026; Inside Higher Ed 2025</p>
+</div>
+
+<!-- SLIDE 6 — What Students Are Doing -->
+<div class="slide left" data-section="problem">
+  <div class="section-label red">Act 1 · The Problem</div>
+  <h2>What Students Are Doing — and Thinking</h2>
+  <p class="mb-1">Digital Education Council Global Survey 2026 — 16,000+ students, multiple regions:</p>
+  <div class="grid-2 mt-1">
+    <div class="card">
+      <div class="stat"><div class="num" style="font-size:2.2rem;color:#60a5fa">15%</div><div class="label">say AI is integrated into many of their courses</div></div>
+    </div>
+    <div class="card">
+      <div class="stat"><div class="num" style="font-size:2.2rem;color:#fbbf24">42%</div><div class="label">say AI integration has been "only somewhat helpful"</div></div>
+    </div>
+    <div class="card">
+      <div class="stat"><div class="num" style="font-size:2.2rem;color:#f87171">60%</div><div class="label">worry classmates misuse AI for unfair advantage</div></div>
+    </div>
+    <div class="card">
+      <div class="stat"><div class="num" style="font-size:2.2rem;color:#a78bfa">72%</div><div class="label">don't see assessments as aligned with an AI-enabled workplace</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7 — The Trust Gap -->
+<div class="slide left" data-section="problem">
+  <div class="section-label red">Act 1 · The Problem</div>
+  <h2>The Trust Gap</h2>
+  <div class="grid-2 mt-1">
+    <div class="card glow-red">
+      <h3>Students say:</h3>
+      <p>Only <strong>29%</strong> believe their instructors are well equipped to guide them on AI use. In the US &amp; Canada, just <strong>17%</strong>.</p>
+    </div>
+    <div class="card glow-blue">
+      <h3>Faculty say:</h3>
+      <p><strong>64%</strong> report they have participated in AI literacy training. Yet faculty intent to use AI in teaching <strong>declined 9 points</strong> in US/Canada (76% → 67%).</p>
+    </div>
+  </div>
+  <blockquote class="mt-2">
+    Such an underground river of mutual suspicion is no foundation for a healthy classroom.
+    <cite>— MIT AI &amp; Education Report 2026</cite>
+  </blockquote>
+</div>
+
+<!-- SLIDE 8 — MIT Silver Lining -->
+<div class="slide center" data-section="problem">
+  <div class="section-label red">Act 1 · The Problem</div>
+  <h2>The Silver Lining</h2>
+  <blockquote style="max-width:48rem;text-align:left">
+    The threat AI poses to familiar ways of teaching and testing may be a blessing in disguise — because the changes are too sudden and severe to ignore.
+    <cite>— MIT AI &amp; Education Report 2026</cite>
+  </blockquote>
+  <p class="mt-2" style="max-width:44rem">This is the window for intentional redesign: backward design, experiential learning, social learning, alternative assessment. MIT recommends against AI detectors and grade rationing — and toward rethinking what assessment means.</p>
+</div>
+
+<!-- SLIDE 9 — Policy Landscape -->
+<div class="slide left" data-section="problem">
+  <div class="section-label red">Act 1 · The Problem</div>
+  <h2>The Policy Landscape Is Closing Fast</h2>
+  <div class="grid-2 mt-1">
+    <div class="card">
+      <p><span class="accent" style="font-size:1.8rem;font-weight:800">134</span></p>
+      <p>AI-related education bills introduced across 31 US states in 2026</p>
+    </div>
+    <div class="card">
+      <p>Accreditation bodies are issuing AI guidance: <strong>FIBAA</strong>, MSCHE, ABET have all published policies or criteria in 2025–2026.</p>
+    </div>
+  </div>
+  <p class="mt-2">FIBAA has adopted an internal policy on the use of AI. For us, this is not optional — it is an accreditation deliverable.</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 2 — TAXONOMY OF AI-ENHANCED PEDAGOGY -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 10 — Transition: One Path -->
+<div class="slide center" data-section="taxonomy">
+  <div class="section-label green">Act 2 · A Taxonomy of AI-Enhanced Pedagogy</div>
+  <h2>One Instructor. Four Courses. One Semester.</h2>
+  <p class="mt-1" style="max-width:44rem">What follows is not a catalogue of tools. It is a narrative about building course-specific digital pedagogy through conversation with an AI — from the simplest applications to the most intellectually demanding.</p>
+  <div class="grid-4 mt-2">
+    <div class="card glow-blue center"><h3 class="accent">Level 1</h3><p class="small">The Course Hub</p></div>
+    <div class="card glow-green center"><h3 class="accent-green">Level 2</h3><p class="small">Skills Scaffolding</p></div>
+    <div class="card glow-amber center"><h3 class="accent-amber">Level 3</h3><p class="small">Experiential Simulation</p></div>
+    <div class="card glow-purple center"><h3 class="accent-purple">Level 4</h3><p class="small">Philosophical Inquiry</p></div>
+  </div>
+</div>
+
+<!-- SLIDE 11 — Level 1: Course Hub -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 1 · The Course Hub</div>
+  <h2>PSIR101 — Introduction to Global Politics</h2>
+  <p>Four sections, three instructors, 15 weeks, scattered materials. Students lose track of readings, miss key dates, can't find what they need.</p>
+  <p class="mt-1"><strong>Solution:</strong> A single mobile-friendly companion app consolidating everything — dashboard, 9 weekly modules with readings and videos, key concepts, assessment info, three lecturer profiles, key dates timeline.</p>
+  <div class="grid-3 mt-2">
+    <div class="card center"><div class="stat"><div class="num accent">9</div><div class="label">weekly modules</div></div></div>
+    <div class="card center"><div class="stat"><div class="num accent-green">5</div><div class="label">interactive study games</div></div></div>
+    <div class="card center"><div class="stat"><div class="num accent-purple">5</div><div class="label">essay writing tools</div></div></div>
+  </div>
+  <p class="small mt-2">🔗 <span class="accent">efkaymak-del.github.io/PSIR101</span> — open on your phone now</p>
+</div>
+
+<!-- SLIDE 12 — Level 1: What It Contains -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 1 · The Course Hub</div>
+  <h2>Inside the PSIR101 Companion</h2>
+  <div class="grid-2 mt-1">
+    <div class="card glow-blue">
+      <h3>Study Arena</h3>
+      <p>Quick Quiz (20 MCQs, shuffled, instant feedback) · Fill in the Blank · Concept Matching (IR theories, key thinkers, UN organs, events &amp; dates) · Timeline Sort (drag-and-drop) · Theory Identifier</p>
+    </div>
+    <div class="card glow-green">
+      <h3>Essay Writing Lab</h3>
+      <p>Thesis Builder (step-by-step with live preview) · PEEL Paragraph Builder (color-coded) · Essay Planner (5-block structure with completeness meter) · Paragraph Scramble · Self-Assessment Scorecard</p>
+    </div>
+    <div class="card glow-purple">
+      <h3>Theory Explorer</h3>
+      <p>Select any of 9 topics → see how 6 IR theories (Realism, Liberalism, Marxism, Constructivism, Feminism, Post-colonialism) interpret it. Plus a Theory Challenge quiz.</p>
+    </div>
+    <div class="card glow-amber">
+      <h3>Topic Labs &amp; Slides</h3>
+      <p>Standalone interactive modules for environment, gender, race, human rights, international organizations, the UN, and Cyprus — each with slide decks and gamified activities.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 13 — Level 1: The Point -->
+<div class="slide center" data-section="taxonomy">
+  <div class="section-label green">Level 1 · The Point</div>
+  <h2>AI didn't replace anything here.</h2>
+  <p class="mt-1" style="max-width:44rem">It <strong>built infrastructure</strong> that would otherwise require a web developer and weeks of work. The instructor provides content expertise and learning design. The AI provides technical execution. The entire app runs client-side — no server, no database, no API keys. It's hosted free on GitHub Pages.</p>
+</div>
+
+<!-- SLIDE 14 — Level 2: Skills Scaffolding -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 2 · Skills Scaffolding</div>
+  <h2>PSIR220 — Research Design</h2>
+  <p>Students struggle with methodology. They can describe theories but can't operationalize them into research. The gap between "I understand process tracing" and "I can do process tracing" is enormous.</p>
+  <p class="mt-1"><strong>Solution:</strong> A paradigm-specific research toolkit — every tool walks students through a <em>thinking process</em>, not just content recall.</p>
+  <div class="grid-3 mt-2">
+    <div class="card glow-blue">
+      <h3>⚔️ Strategist</h3>
+      <p>Positivist track · KKV · Hypotheses → observable implications → evidence → rival explanation → cautious verdict</p>
+    </div>
+    <div class="card glow-green">
+      <h3>📖 Storyteller</h3>
+      <p>Interpretivist track · George &amp; Bennett · Starting conditions → causal chain links → breaks → alternative pathway → verdict</p>
+    </div>
+    <div class="card glow-purple">
+      <h3>🔥 Disruptor</h3>
+      <p>Critical track · Milliken · Corpus → discursive patterns → productivity &amp; foreclosure → dominant account → positionality → revelation</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15 — Level 2: The Toolkit -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 2 · Skills Scaffolding</div>
+  <h2>The Full PSIR220 Toolkit</h2>
+  <div class="flex gap-1 mt-1" style="flex-wrap:wrap;max-width:56rem">
+    <span class="tag tag-blue">Analysis Walkthrough</span>
+    <span class="tag tag-blue">Annotated Bibliography Builder</span>
+    <span class="tag tag-blue">Literature Review Tool</span>
+    <span class="tag tag-blue">Lit Map</span>
+    <span class="tag tag-green">Alignment Checker</span>
+    <span class="tag tag-green">Paper Assembler</span>
+    <span class="tag tag-purple">Character Card</span>
+    <span class="tag tag-purple">N-Size Slider</span>
+    <span class="tag tag-purple">Paradigm Crisis Simulation</span>
+    <span class="tag tag-amber">Scholar Selector</span>
+    <span class="tag tag-amber">Symposium Prep</span>
+    <span class="tag tag-amber">Lit Review Workshop</span>
+  </div>
+  <p class="mt-2">Each tool scaffolds a specific research skill. The student fills in their own content; the tool structures the thinking. The AI built the scaffolding — the intellectual work remains the student's.</p>
+  <p class="small mt-1">🔗 <span class="accent">efkaymak-del.github.io/PSIR220</span></p>
+</div>
+
+<!-- SLIDE 16 — Level 3: Experiential Simulation -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 3 · Experiential Simulation</div>
+  <h2>PSIR172 — Applied Skills: Model United Nations</h2>
+  <p>MUN requires country research, speech writing, negotiation strategy, and resolution drafting. Students often arrive unprepared and flounder. The gap between "I know about refugees" and "I can represent Jordan's position on refugee burden-sharing" is vast.</p>
+  <p class="mt-1"><strong>Solution:</strong> A complete MUN ecosystem — from preparation through simulation to resolution drafting.</p>
+</div>
+
+<!-- SLIDE 17 — Level 3: MUN Ecosystem -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 3 · Experiential Simulation</div>
+  <h2>The MUN Ecosystem</h2>
+  <div class="grid-2 mt-1">
+    <div class="card glow-amber">
+      <h3>Preparation</h3>
+      <p>Preparation Workshop (how to research, not what to know) · Country Research Walkthrough · Delegation Strategy Builder · "Weak vs. Strong approach" framework</p>
+    </div>
+    <div class="card glow-blue">
+      <h3>Student Tools</h3>
+      <p>Student Toolkit (speech drafting, position papers, clause writing) · Learning Companion · MUN Resources · Country Placards</p>
+    </div>
+    <div class="card glow-green">
+      <h3>Simulation</h3>
+      <p>MUN Simulation App · Intro Deck · Three-week arc: Preparation → Simulation I (speeches, caucusing, bloc formation) → Simulation II (drafting, amendments, vote)</p>
+    </div>
+    <div class="card glow-purple">
+      <h3>Instructor</h3>
+      <p>Instructor Pack · Resolution Drafting Guide · Policy Brief Builder · Campaigns App · Assessment materials</p>
+    </div>
+  </div>
+  <p class="small mt-2">🔗 <span class="accent">efkaymak-del.github.io/PSIR172</span></p>
+</div>
+
+<!-- SLIDE 18 — Level 3: Key Pedagogical Move -->
+<div class="slide center" data-section="taxonomy">
+  <div class="section-label green">Level 3 · The Key Move</div>
+  <h2>"Research goal: not 'know everything about the country,' but 'know enough to act like its delegation in this committee.'"</h2>
+  <p class="mt-2" style="max-width:46rem">The MUN preparation workshop explicitly teaches the difference between a <strong>weak approach</strong> (capital city, population, flag, random history) and a <strong>strong approach</strong> (role on the issue, pressures, likely support, likely opposition, acceptable wording). AI built the scaffolding for an exercise that is fundamentally about doing, not knowing.</p>
+</div>
+
+<!-- SLIDE 19 — Level 4: Philosophical Inquiry -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 4 · Philosophical Inquiry</div>
+  <h2>PSIR308 — Contemporary Political Thought</h2>
+  <p>Political theory is often taught as lecture → reading → essay. Students can define theories but can't <em>use</em> them as analytical instruments. They know what Rawls said but not what happens when Fanon interrogates him.</p>
+  <p class="mt-1"><strong>Solution:</strong> Scenario-based philosophical simulations where students apply theoretical lenses to dilemmas — and discover their own commitments.</p>
+</div>
+
+<!-- SLIDE 20 — Level 4: The Simulations -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 4 · Philosophical Inquiry</div>
+  <h2>The PSIR308 Simulations</h2>
+  <div class="grid-2 mt-1">
+    <div class="card glow-purple">
+      <h3>Feminism App</h3>
+      <p>10 social arrangements examined through 4 lenses: liberal feminism, radical feminism (MacKinnon), socialist feminism, justice-in-the-family (Okin). Students choose which lens is most revealing — their pattern reveals their theoretical intuitions.</p>
+    </div>
+    <div class="card glow-blue">
+      <h3>Communitarianism App</h3>
+      <p>8 dilemmas: individual autonomy vs. communal belonging. Choose Liberal, Communitarian, or Compromise for each. Your pattern emerges.</p>
+    </div>
+    <div class="card glow-amber">
+      <h3>Pre-Political Simulation</h3>
+      <p>Beauvoir &amp; Fanon. 8 scenarios — liberal analysis vs. pre-political critique. Generates a profile: Radical Deconstructionist, Critical Liberal, Institutional Pragmatist, or Situational Thinker.</p>
+    </div>
+    <div class="card glow-green">
+      <h3>And more…</h3>
+      <p>Self-Ownership Dilemma · Alienation · Invisible Labour · The Boundary Problem · Multiculturalism · Marxism · Nozick · Libertarianism · Citizenship · Dworkin</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 21 — Level 4: The Workshop -->
+<div class="slide left" data-section="taxonomy">
+  <div class="section-label green">Level 4 · The Live Classroom</div>
+  <h2>Critical Theory Workshop</h2>
+  <p>Students arrive with their pre-political simulation profiles. The instructor-led workshop app structures the live session:</p>
+  <div class="grid-3 mt-2">
+    <div class="card glow-blue">
+      <h3>Block 1 — Map the Room</h3>
+      <p>Students submit profiles. Live distribution appears on screen. "Who shifted? Who was consistent? What drove your pattern?"</p>
+    </div>
+    <div class="card glow-amber">
+      <h3>Block 2 — Theories on Trial</h3>
+      <p>Rawls, Nozick, MacKinnon. Beauvoir and Fanon are the prosecutors. Real-time voting: Survived / Needs revision / Fundamentally broken.</p>
+    </div>
+    <div class="card glow-purple">
+      <h3>Block 3 — The Course Itself</h3>
+      <p><strong>Scenario 8.</strong> "You are studying Beauvoir and Fanon in English, at a university modelled on Western higher education, in a territory shaped by colonialism and partition."</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 22 — Scenario 8 -->
+<div class="slide center" data-section="taxonomy">
+  <div class="section-label purple">Level 4 · Scenario 8</div>
+  <blockquote style="max-width:48rem;text-align:left;font-size:1.1rem">
+    Fanon said that the university is the most refined instrument of colonial subject-construction.<br><br>
+    Is this course an act of liberation or an act of assimilation — or both?
+    <cite>— PSIR 308 Critical Theory Workshop, Scenario 8</cite>
+  </blockquote>
+  <p class="mt-2" style="max-width:44rem">The technology does the logistics — collecting votes, displaying distributions, sequencing blocks. The intellectual work is irreducibly human and deeply Socratic. AI built the vehicle. The pedagogy requires being in the room together.</p>
+</div>
+
+<!-- SLIDE 23 — Transition Stat -->
+<div class="slide center" data-section="taxonomy">
+  <div class="section-label green">The Full Picture</div>
+  <h1 style="font-size:2rem">4 courses · ~60 applications · 1 semester</h1>
+  <div class="grid-4 mt-2">
+    <div class="card glow-blue center">
+      <h3 class="accent">PSIR101</h3>
+      <p class="small">Course hub · Study games · Essay lab · Topic labs · Slides</p>
+    </div>
+    <div class="card glow-green center">
+      <h3 class="accent-green">PSIR220</h3>
+      <p class="small">3-paradigm analysis · Lit tools · Paper assembler · Symposium prep</p>
+    </div>
+    <div class="card glow-amber center">
+      <h3 class="accent-amber">PSIR172</h3>
+      <p class="small">Full MUN ecosystem · Preparation → Simulation → Drafting</p>
+    </div>
+    <div class="card glow-purple center">
+      <h3 class="accent-purple">PSIR308</h3>
+      <p class="small">Philosophical simulations · Live workshop apps · Scenario debates</p>
+    </div>
+  </div>
+  <p class="mt-2" style="max-width:44rem">None of this required programming skills. All of it was built through conversation with an AI. The instructor provides content expertise and pedagogical design. The AI provides technical execution.</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 3 — ENTRY POINTS FOR EVERYONE -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 24 — Transition -->
+<div class="slide center" data-section="tools">
+  <div class="section-label purple">Act 3 · Entry Points for Everyone</div>
+  <h2>You Don't Have to Build 60 Apps</h2>
+  <p class="mt-1" style="max-width:44rem">The same AI-human collaboration model applies at every scale. Here are tools you can start using tomorrow — no coding, no GitHub, no HTML.</p>
+</div>
+
+<!-- SLIDE 25 — Brisk Teaching -->
+<div class="slide left" data-section="tools">
+  <div class="section-label purple">Act 3 · Accessible Tools</div>
+  <h2>Brisk Teaching</h2>
+  <p>A free Chrome extension — the #1 AI platform for teachers. Used in 10,000+ school districts. 95% Common Sense Privacy Rating.</p>
+  <div class="grid-2 mt-2">
+    <div class="card glow-green">
+      <h3>Create</h3>
+      <p><strong>AI Quiz Maker</strong> — generates Google Forms quizzes from any content. <strong>Rubric Generator</strong> — builds rubrics from your learning outcomes. <strong>Presentation Maker</strong> — turns articles or videos into Google Slides.</p>
+    </div>
+    <div class="card glow-blue">
+      <h3>Differentiate</h3>
+      <p><strong>Text Leveler</strong> — instantly adjusts reading level of any article. Supports 40+ languages for translation. Generates vocabulary lists and comprehension checks from any text.</p>
+    </div>
+    <div class="card glow-amber">
+      <h3>Assess</h3>
+      <p><strong>Personalized Feedback</strong> — writes comments on student work in your voice, at your standard. Essay 100 is as good as essay 1. <strong>Inspect Student Writing</strong> — video playback of the writing process, including copy-paste actions.</p>
+    </div>
+    <div class="card glow-purple">
+      <h3>Communicate</h3>
+      <p>Letters of recommendation. Parent newsletters. Email drafting. All generated from your context and customizable before sending.</p>
+    </div>
+  </div>
+  <p class="small mt-1">🔗 <span class="accent">briskteaching.com</span> — install the Chrome extension and try it</p>
+</div>
+
+<!-- SLIDE 26 — Moodle & Google Forms -->
+<div class="slide left" data-section="tools">
+  <div class="section-label purple">Act 3 · Tools You Already Have</div>
+  <h2>Moodle &amp; Google Forms</h2>
+  <div class="grid-2 mt-1">
+    <div class="card glow-blue">
+      <h3>Moodle</h3>
+      <p>Quiz banks with randomized questions · Forums for structured discussion · Assignment submission with version tracking · Built-in rubrics · Peer review activities · Workshop module for calibrated peer assessment. Add an AI-use disclosure field to every assignment submission page.</p>
+    </div>
+    <div class="card glow-green">
+      <h3>Google Forms</h3>
+      <p>Instant classroom polls and exit tickets · Pre-class surveys · Formative check-ins · Links to Google Sheets for live results display. The QR code you scanned at the start of this seminar uses exactly this — zero cost, setup in minutes.</p>
+    </div>
+  </div>
+  <p class="mt-2">The principle: you don't need to build custom apps to integrate AI-aware pedagogy. Your existing tools already support transparency, formative assessment, and structured reflection — if you configure them intentionally.</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 4 — POLICY FRAMEWORK -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 27 — Policy Overview -->
+<div class="slide left" data-section="policy">
+  <div class="section-label amber">Act 4 · Policy as Enabler</div>
+  <h2>Faculty AI Policy — Version 1.0</h2>
+  <p>Effective Academic Year 2026–2027 · For review and adoption by the Faculty Board</p>
+  <p class="mt-1">Grounded in the <strong>EU Ethics Guidelines for Trustworthy AI</strong> (High-Level Expert Group, 2019). This is distinctive: most university AI policies are ad hoc rules. Ours is anchored in an established, principled ethical framework — the same framework the EU uses for AI regulation.</p>
+  <p class="mt-1">The framework rests on four ethical imperatives: <strong>respect for human autonomy</strong>, <strong>prevention of harm</strong>, <strong>fairness</strong>, and <strong>explicability</strong>. From these, seven operational requirements.</p>
+</div>
+
+<!-- SLIDE 28 — The Seven Principles -->
+<div class="slide left" data-section="policy">
+  <div class="section-label amber">Act 4 · The Seven Principles</div>
+  <h2>EU Trustworthy AI → Student Academic Work</h2>
+  <div style="display:grid;grid-template-columns:auto 1fr;gap:0;max-width:56rem;width:100%;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);margin-top:1rem">
+    <div class="tier-cell tier-head">Principle</div>
+    <div class="tier-cell tier-head">What it means for students</div>
+    <div class="tier-cell" style="border-left:3px solid #60a5fa">1. Human agency &amp; oversight</div><div class="tier-cell">You remain the author and thinker. AI may assist, but your judgment directs and checks every output.</div>
+    <div class="tier-cell" style="border-left:3px solid #60a5fa">2. Technical robustness</div><div class="tier-cell">AI outputs can be wrong or fabricated. Verify facts, data, and citations before relying on them.</div>
+    <div class="tier-cell" style="border-left:3px solid #60a5fa">3. Privacy &amp; data governance</div><div class="tier-cell">Do not enter confidential or personal data into AI tools without authorization.</div>
+    <div class="tier-cell" style="border-left:3px solid #60a5fa">4. Transparency</div><div class="tier-cell">Disclose when and how you used AI. Your work must be traceable and honestly attributed.</div>
+    <div class="tier-cell" style="border-left:3px solid #60a5fa">5. Diversity &amp; fairness</div><div class="tier-cell">Be alert to bias in AI outputs. Misuse for unfair advantage is prohibited.</div>
+    <div class="tier-cell" style="border-left:3px solid #60a5fa">6. Societal well-being</div><div class="tier-cell">Use AI responsibly, mindful of its wider ethical, social, and resource costs.</div>
+    <div class="tier-cell" style="border-left:3px solid #60a5fa">7. Accountability</div><div class="tier-cell">You are fully responsible for everything you submit, including any AI-assisted content.</div>
+  </div>
+</div>
+
+<!-- SLIDE 29 — Three-Tier Taxonomy -->
+<div class="slide left" data-section="policy">
+  <div class="section-label amber">Act 4 · The Three-Tier Taxonomy</div>
+  <h2>Permitted · Authorized Only · Prohibited</h2>
+  <div class="tier mt-2">
+    <div class="tier-cell tier-head">Tier</div><div class="tier-cell tier-head">Examples</div><div class="tier-cell tier-head">Requirement</div>
+    <div class="tier-cell tier-green"><span class="accent-green">✓ Permitted</span></div>
+    <div class="tier-cell tier-green">Brainstorming, explaining concepts, grammar/style, summarizing readings, generating practice questions, debugging your own code</div>
+    <div class="tier-cell tier-green">Allowed unless instructor says otherwise; disclose in AI-use statement</div>
+    <div class="tier-cell tier-amber"><span class="accent-amber">⚠ Authorized only</span></div>
+    <div class="tier-cell tier-amber">Drafting text sections, generating data/figures, translating substantial passages, producing code as a deliverable</div>
+    <div class="tier-cell tier-amber">Only when course/assignment explicitly allows it; disclose fully</div>
+    <div class="tier-cell tier-red"><span class="accent-red">✕ Prohibited</span></div>
+    <div class="tier-cell tier-red">Submitting AI-generated work as your own, using AI in closed exams, fabricating data/sources, bypassing the learning objective</div>
+    <div class="tier-cell tier-red">Not allowed; treated as academic misconduct</div>
+  </div>
+</div>
+
+<!-- SLIDE 30 — Disclosure -->
+<div class="slide center" data-section="policy">
+  <div class="section-label amber">Act 4 · The Disclosure Requirement</div>
+  <h2>The Model Statement</h2>
+  <div class="card glow-amber mt-2" style="max-width:48rem;text-align:left">
+    <p style="font-size:1.05rem;color:#cbd5e1;font-style:italic">"In preparing this work I used <strong>[tool name]</strong> to <strong>[brief description, e.g. brainstorm ideas / check grammar / explain a concept]</strong>. I reviewed and verified all output, and I take full responsibility for the content of this submission."</p>
+  </div>
+  <p class="mt-2" style="max-width:44rem">This is additive, not punitive. It normalizes transparency. It makes the invisible visible. And it gives instructors a foundation for conversation rather than accusation.</p>
+</div>
+
+<!-- SLIDE 31 — Syllabus Integration -->
+<div class="slide left" data-section="policy">
+  <div class="section-label amber">Act 4 · Syllabus Integration</div>
+  <h2>The Provisional Clause</h2>
+  <p>Per Department Council Karar 6 (14 September 2026):</p>
+  <div class="card glow-amber mt-1" style="max-width:52rem">
+    <p>Syllabi for Fall 2026–2027 go to students the week of <strong>22 September</strong> with three components finalized: (a) learning outcomes in active verbs, (b) assessment items mapped to programme learning outcomes, (c) rebalanced assessment weights. The AI use clause is marked as <strong>provisional</strong> (<em>geçici</em>). Once the Faculty Board formalizes the policy, instructors update <strong>only that clause</strong> within one week.</p>
+  </div>
+  <p class="mt-1">This buys time without leaving a vacuum. Students know from day one that AI rules exist and are coming; instructors aren't forced to finalize before the institutional position is clear.</p>
+</div>
+
+<!-- SLIDE 32 — Policy ↔ Practice -->
+<div class="slide center" data-section="policy">
+  <div class="section-label amber">Act 4 · The Connection</div>
+  <h2>Policy Enables Practice</h2>
+  <p class="mt-1" style="max-width:46rem">Without a clear policy, colleagues are paralyzed — some ban AI entirely, others ignore it. A principled framework <strong>liberates everyone to experiment purposefully</strong>.</p>
+  <p class="mt-1" style="max-width:46rem">The same "human agency and oversight" principle that governs student use is what the instructor practiced in every one of those 60 apps: <strong>AI builds, the instructor designs and decides.</strong></p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 5 — ADMIN & COMMITTEE WORK -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 33 — Admin Tools -->
+<div class="slide left" data-section="admin">
+  <div class="section-label red">Act 5 · AI for Administration</div>
+  <h2>Beyond the Classroom</h2>
+  <p>AI can also reduce the administrative load — especially relevant given the coordinator roles we just assigned (Karar 3, 14 September).</p>
+  <div class="grid-2 mt-2">
+    <div class="card glow-blue">
+      <h3>Microsoft Teams &amp; Planner</h3>
+      <p>Separate Teams channels for each coordinator role and committee (Karar 9). Microsoft Planner within Teams for task assignment, deadlines, and workflow tracking. Already in place for our department.</p>
+    </div>
+    <div class="card glow-green">
+      <h3>AI-Assisted Admin Tasks</h3>
+      <p>Drafting meeting agendas from previous minutes. Summarizing long documents for accreditation reports. Generating first-draft programme learning outcome descriptions. Preparing evidence tables for FIBAA/STAR. Always with human review — the same principle as the student policy.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 6 — DISCUSSION -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 34 — Discussion 1 -->
+<div class="slide center" data-section="discussion">
+  <div class="section-label blue">Act 6 · Discussion</div>
+  <div class="discussion">
+    <h3>Prompt 1</h3>
+    <p>You've seen four levels of AI integration — from course hubs through skills scaffolding and experiential simulation to philosophical inquiry. Where do you see yourself starting, and what would you need to get there?</p>
+  </div>
+</div>
+
+<!-- SLIDE 35 — Discussion 2 -->
+<div class="slide center" data-section="discussion">
+  <div class="section-label blue">Act 6 · Discussion</div>
+  <div class="discussion">
+    <h3>Prompt 2</h3>
+    <p>The MIT report says AI detectors are unreliable and create mutual suspicion. Our Faculty AI Policy requires disclosure instead. Is that enough? What alternatives would you trust?</p>
+  </div>
+</div>
+
+<!-- SLIDE 36 — Discussion 3 -->
+<div class="slide center" data-section="discussion">
+  <div class="section-label blue">Act 6 · Discussion</div>
+  <div class="discussion">
+    <h3>Prompt 3</h3>
+    <p>Should a department like ours develop shared interactive tools across courses, or should each instructor build independently? What are the trade-offs?</p>
+  </div>
+</div>
+
+<!-- SLIDE 37 — Discussion 4 (the reflexive turn) -->
+<div class="slide center" data-section="discussion">
+  <div class="section-label blue">Act 6 · Discussion</div>
+  <div class="discussion">
+    <h3>Prompt 4</h3>
+    <p>Scenario 8 from PSIR308 asked students whether studying Western political theory in a post-colonial context is liberation or assimilation. Is the same question applicable to our adoption of AI tools built primarily in Silicon Valley?</p>
+  </div>
+</div>
+
+<!-- SLIDE 38 — Closing QR -->
+<div class="slide center" data-section="discussion">
+  <div class="section-label blue">Before We Close</div>
+  <h2>Closing Reflections</h2>
+  <p>One last scan — 3 quick questions about what you'd like to try.</p>
+  <div class="qr-box mt-2">
+    <div class="qr-placeholder">[ Insert QR code — link to Closing Google Form ]</div>
+  </div>
+  <p class="small mt-1">Or open the link: <span class="accent">[Closing Form short URL]</span></p>
+</div>
+
+<!-- SLIDE 39 — Action Items -->
+<div class="slide left" data-section="discussion">
+  <div class="section-label blue">Immediate Action Items</div>
+  <h2>What Happens Next</h2>
+  <div style="max-width:52rem;margin-top:1rem">
+    <div class="card glow-blue mb-1" style="margin-bottom:.8rem">
+      <p><span class="accent" style="font-weight:700">Today (Thursday):</span> This seminar's output feeds into the Faculty Council's AI policy discussion this afternoon.</p>
+    </div>
+    <div class="card glow-green mb-1" style="margin-bottom:.8rem">
+      <p><span class="accent-green" style="font-weight:700">21 September (Monday):</span> Revised syllabi — with PÖÇ alignment, active verbs, and rebalanced assessment — uploaded to DKGK Teams channel. AI clause marked provisional.</p>
+    </div>
+    <div class="card glow-amber mb-1" style="margin-bottom:.8rem">
+      <p><span class="accent-amber" style="font-weight:700">22 September (Monday):</span> Semester begins. Syllabi go to students.</p>
+    </div>
+    <div class="card glow-purple" style="margin-bottom:.8rem">
+      <p><span class="accent-purple" style="font-weight:700">Faculty Board decision + 1 week:</span> AI clause finalized and resubmitted to DKGK.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 40 — Credits / Close -->
+<div class="slide center" data-section="closing">
+  <h2>Thank You</h2>
+  <p class="mt-1" style="max-width:40rem;color:#94a3b8">This presentation was built as a single-page HTML application through conversation with Claude (Anthropic). It is hosted on GitHub Pages and is freely accessible to all department members.</p>
+  <div class="mt-2" style="color:#64748b;font-size:.9rem">
+    <p>Prof. Dr. Erol Kaymak · erol.kaymak@emu.edu.tr · BE154</p>
+    <p class="mt-1">Department of Political Science &amp; International Relations</p>
+    <p>Faculty of Business &amp; Economics · Eastern Mediterranean University</p>
+  </div>
+  <div class="mt-3 small" style="max-width:48rem">
+    <p><strong>Image credits:</strong> EMU Campus: © Mosbatho, Wikimedia Commons, CC BY 4.0. MIT Dome: Fcb981, Wikimedia Commons, CC BY-SA 3.0. EU Flags: Thijs ter Haar, Wikimedia Commons, CC BY 2.0. Generated visuals created for this presentation.</p>
+    <p class="mt-1"><strong>Data sources:</strong> MIT Committee on AI and Education (2026). Digital Education Council Global Survey (2026). AAC&amp;U Faculty Survey (2026). EU High-Level Expert Group on AI (2019). Department Council Minutes 2026/6 (14 September 2026). FBE AI Policy v1.0.</p>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ============================================================ -->
+<!-- NAVIGATION ENGINE -->
+<!-- ============================================================ -->
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total  = slides.length;
+  let cur = 0;
+
+  function go(n){
+    if(n < 0 || n >= total) return;
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    setTimeout(()=> slides[cur === n ? cur : (cur < n ? cur : cur)].classList.remove('exit'), 460);
+    const prev = cur;
+    cur = n;
+    slides[cur].classList.add('active');
+    setTimeout(()=> slides[prev].classList.remove('exit'), 460);
+    document.getElementById('progressBar').style.width = ((cur/(total-1))*100)+'%';
+    document.getElementById('slideCounter').textContent = (cur+1)+' / '+total;
+  }
+
+  function next(){ go(cur+1) }
+  function prev(){ go(cur-1) }
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown') { e.preventDefault(); next(); }
+    if(e.key==='ArrowLeft'||e.key==='PageUp') { e.preventDefault(); prev(); }
+    if(e.key==='Home') { e.preventDefault(); go(0); }
+    if(e.key==='End')  { e.preventDefault(); go(total-1); }
+  });
+
+  // Touch
+  let tx=0;
+  document.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - tx;
+    if(Math.abs(dx) > 50){ dx < 0 ? next() : prev(); }
+  }, {passive:true});
+
+  // Click edges
+  document.addEventListener('click', e => {
+    const x = e.clientX / window.innerWidth;
+    if(x > 0.75) next();
+    else if(x < 0.25) prev();
+  });
+
+  // Init
+  slides.forEach(s => s.classList.remove('active'));
+  slides[0].classList.add('active');
+  document.getElementById('slideCounter').textContent = '1 / '+total;
+  document.getElementById('progressBar').style.width = '0%';
+})();
+</script>
+
+</body>
+</html>
