@@ -88,11 +88,6 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 .tier-head{background:#f8fafc;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#64748b}
 .tier-green{background:#f0fdf4}.tier-amber{background:#fffbeb}.tier-red{background:#fef2f2}
 
-/* ── Principle table ── */
-.principle-grid{display:grid;grid-template-columns:auto 1fr;gap:0;max-width:56rem;width:100%;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;background:#fff}
-.principle-grid .p-cell{padding:.65rem 1rem;font-size:.88rem;line-height:1.5;border-bottom:1px solid #f1f5f9}
-.principle-grid .p-label{font-weight:600;color:#1d4ed8;white-space:nowrap}
-
 /* ── Discussion prompt ── */
 .discussion{background:#eff6ff;border:1px solid #bfdbfe;border-radius:16px;padding:2rem 2.2rem;max-width:50rem;width:100%}
 .discussion h3{color:#1d4ed8;margin-bottom:.6rem}
@@ -120,7 +115,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 /* ── Photo caption ── */
 .photo-caption{font-size:.72rem;color:#94a3b8;text-align:center;margin-top:.3rem;font-style:italic}
 
-/* ── Split layout for image + text ── */
+/* ── Split layout ── */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;width:100%;max-width:58rem;align-items:center}
 .split img{width:100%;height:auto;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
 .split-text h2{margin-bottom:.5rem}
@@ -153,9 +148,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 
 <div class="deck" id="deck">
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- S1 — TITLE -->
-<!-- ═══════════════════════════════════════════ -->
 <div class="slide center" data-section="opening">
   <div class="title-banner">
     <img class="emu-logo" src="https://ir.emu.edu.tr/_layouts/emu/images/logo/emu-logo-horizontalwhite-en.svg" alt="Eastern Mediterranean University Logo">
@@ -173,9 +166,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <div class="mt-3 small">Press &rarr; or tap right edge to begin</div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- S2 — QR / LIVE POLL (OPENING) -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- S2 — QR / OPENING POLL -->
 <div class="slide center" data-section="opening">
   <div class="section-label blue">Before We Start</div>
   <h2>Scan &amp; Share</h2>
@@ -186,9 +177,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="small mt-1">Or open: <a class="accent" href="https://forms.gle/Jw4Tg61NXXQ67g8L6" target="_blank" style="font-weight:600">forms.gle/Jw4Tg61NXXQ67g8L6</a></p>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- S3 — WHY NOW -->
-<!-- ═══════════════════════════════════════════ -->
 <div class="slide left" data-section="opening">
   <div class="section-label blue">Why This Seminar, Why Now</div>
   <h2>Three Converging Pressures</h2>
@@ -208,9 +197,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- S4 — ROADMAP -->
-<!-- ═══════════════════════════════════════════ -->
 <div class="slide center" data-section="opening">
   <div class="section-label blue">Roadmap</div>
   <h2>Where We&rsquo;re Going</h2>
@@ -225,9 +212,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="mt-2" style="max-width:42rem">This seminar is itself a single-page interactive web app &mdash; built through conversation with an AI and hosted on GitHub Pages. The medium is part of the message.</p>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- ACT 1 — THE PROBLEM -->
-<!-- ═══════════════════════════════════════════ -->
 
 <!-- S5 — SCALE -->
 <div class="slide left" data-section="problem">
@@ -302,16 +287,14 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="mt-2">For us, this is not optional &mdash; it is an accreditation deliverable.</p>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- ACT 2 — TAXONOMY -->
-<!-- ═══════════════════════════════════════════ -->
 
 <!-- S10 — TRANSITION -->
 <div class="slide center" data-section="taxonomy">
   <div class="section-label green">Act 2 &middot; A Taxonomy of AI-Enhanced Pedagogy</div>
   <h2>One Instructor. Four Courses. One Semester.</h2>
-  <img class="hero-img" src="https://ir.emu.edu.tr/PublishingImages/PSIR/Nico%20Carpentier%204th%20March%202026.jpg" alt="CPC seminar in session, March 2026 — Department of Political Science &amp; IR, EMU">
-  <p class="photo-caption">CPC Seminar, 4 March 2026 &mdash; in the near future, every event like this will have a QR code on screen.</p>
+  <img class="hero-img" src="https://ir.emu.edu.tr/PublishingImages/PSIR/Erol%20Kaymak%20Seminar.jpeg" alt="Prof. Dr. Erol Kaymak presenting at a CPC seminar, EMU, October 2024">
+  <p class="photo-caption">CPC Seminar, October 2024 &mdash; in the near future, every event like this will have a QR code on screen.</p>
   <div class="grid-4 mt-1">
     <div class="card blue center"><h3 class="accent">Level 1</h3><p class="small">Course Hub</p></div>
     <div class="card green center"><h3 class="accent-green">Level 2</h3><p class="small">Skills Scaffolding</p></div>
@@ -419,7 +402,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <div class="split">
     <div>
       <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/debate%20on%20trumps%20m%C4%B1ddle%20east%20plan.jpg" alt="Student debate — Models for Peace in the Middle East, EMU Pugwash Club, November 2025">
-      <p class="photo-caption">Pugwash Club student debate, &ldquo;Models for Peace in the Middle East,&rdquo; November 2025</p>
+      <p class="photo-caption">Pugwash Club student debate, November 2025</p>
     </div>
     <div class="split-text">
       <h2>PSIR172 &mdash; Model United Nations</h2>
@@ -566,9 +549,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="mt-1" style="max-width:48rem"><strong>None of this required programming skills.</strong> All of it was built through conversation with an AI. The instructor provides content expertise and pedagogical design. The AI provides technical execution.</p>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- ACT 3 — ENTRY POINTS -->
-<!-- ═══════════════════════════════════════════ -->
 
 <!-- S24 — TRANSITION -->
 <div class="slide center" data-section="tools">
@@ -600,7 +581,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <!-- S26 — GEMINI NOTEBOOK -->
 <div class="slide left" data-section="tools">
   <div class="section-label purple">Act 3 &middot; Accessible Tools</div>
-  <h2>Gemini Notebook (formerly NotebookLM)</h2>
+  <h2>Gemini Notebook <span class="small" style="font-weight:400">(formerly NotebookLM)</span></h2>
   <p>Google&rsquo;s free AI research tool, <a href="https://notebook.google.com/" target="_blank" class="accent" style="font-weight:600">renamed in July 2026</a>. Upload your own sources &mdash; PDFs, Google Docs, web links, YouTube videos &mdash; and the AI works <strong>only from those sources</strong>, with inline citations.</p>
   <div class="grid-3 mt-2">
     <div class="card blue">
@@ -659,17 +640,15 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="mt-2" style="max-width:44rem">All three are free, require no coding, and can be started this week. The question is not <em>whether</em> to begin but <em>where</em>.</p>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- ACT 4 — POLICY -->
-<!-- ═══════════════════════════════════════════ -->
 
 <!-- S29 — POLICY OVERVIEW -->
 <div class="slide left" data-section="policy">
   <div class="section-label amber">Act 4 &middot; Policy as Enabler</div>
   <div class="split">
     <div>
-      <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/%C4%B1nclus%C4%B1ve%20peace%20panel.jpg" alt="Panel on Inclusive Peace, EMU, October 2025">
-      <p class="photo-caption">CPC &ldquo;Inclusive Peace&rdquo; panel, October 2025</p>
+      <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/nationalism%20and%20culture%20panel.jpg" alt="Panel on Nationalism &amp; Culture, EMU, March 2025">
+      <p class="photo-caption">&ldquo;Nationalism &amp; Culture&rdquo; panel, CPC &amp; PSIR, March 2025</p>
     </div>
     <div class="split-text">
       <h2>A Framework, Not a Ban</h2>
@@ -712,9 +691,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="mt-2 small">Department Council, 14 Sep 2026, Karar 1 &middot; Syllabi due: 21 Sep &middot; Portal entries due: 15 Sep</p>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- ACT 5 — ADMIN TOOLS -->
-<!-- ═══════════════════════════════════════════ -->
 
 <!-- S33 — ADMIN OVERVIEW -->
 <div class="slide left" data-section="admin">
@@ -739,21 +716,19 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
       </div>
     </div>
     <div>
-      <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/Eiki%20Berg%2026%20Feb%202026.jpg" alt="CPC Seminar — De Facto States, February 2026">
-      <p class="photo-caption">CPC Seminar, February 2026 &mdash; meeting transcription and AI-assisted minutes can free up time for substance.</p>
+      <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/Zeynep%20Aydar%20Seminar.jpeg" alt="Seminar on Migration Management, EMU, November 2024">
+      <p class="photo-caption">CPC Seminar with Zeynep Aydar, November 2024</p>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
 <!-- ACT 6 — DISCUSSION -->
-<!-- ═══════════════════════════════════════════ -->
 
 <!-- S34 — DISCUSSION INTRO -->
 <div class="slide center" data-section="discussion">
   <div class="section-label purple">Act 6 &middot; Discussion</div>
-  <img class="hero-img" src="https://ir.emu.edu.tr/PublishingImages/PSIR/Isil%20Gurler.jpg" alt="CPC Seminar — A Diplomat&rsquo;s Life, December 2025">
-  <p class="photo-caption">CPC Seminar with Consul General I&#351;&#305;l G&uuml;rler, December 2025</p>
+  <img class="hero-img" src="https://ir.emu.edu.tr/PublishingImages/PSIR/%C4%B1nclus%C4%B1ve%20peace%20panel.jpg" alt="Panel on Inclusive Peace, EMU, October 2025">
+  <p class="photo-caption">CPC &ldquo;Inclusive Peace&rdquo; panel, October 2025</p>
   <h2 style="margin-top:.8rem">Over to You</h2>
   <p class="mt-1" style="max-width:44rem">Four prompts for open conversation. Take any one &mdash; or raise your own.</p>
 </div>
