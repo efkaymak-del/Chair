@@ -70,12 +70,12 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 .section-label.red{color:#dc2626}
 
 /* ── Hero images ── */
-.hero-img{width:100%;max-width:52rem;height:200px;object-fit:cover;border-radius:14px;margin-bottom:1.2rem;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.hero-img.tall{height:260px}
-.hero-img.short{height:140px}
+.hero-img{width:100%;max-width:52rem;height:220px;object-fit:cover;border-radius:14px;margin-bottom:1.2rem;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.hero-img.tall{height:280px}
+.hero-img.short{height:160px}
 
 /* ── Demo buttons ── */
-.demo-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;border-radius:10px;font-size:.92rem;font-weight:600;text-decoration:none;transition:all .2s;margin:.3rem;border:2px solid}
+.demo-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.5rem;border-radius:10px;font-size:.95rem;font-weight:600;text-decoration:none;transition:all .2s;margin:.3rem;border:2px solid}
 .demo-btn.blue{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.demo-btn.blue:hover{background:#dbeafe}
 .demo-btn.green{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.demo-btn.green:hover{background:#d1fae5}
 .demo-btn.amber{background:#fffbeb;color:#b45309;border-color:#fde68a}.demo-btn.amber:hover{background:#fef3c7}
@@ -110,10 +110,20 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 /* ── Nav hint ── */
 .nav-hint{position:fixed;bottom:1rem;left:1.3rem;font-size:.72rem;color:#cbd5e1;z-index:100}
 
-/* ── Title slide special ── */
-.title-hero{position:relative;width:100%;max-width:56rem;height:220px;border-radius:16px;overflow:hidden;margin-bottom:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.title-hero img{width:100%;height:100%;object-fit:cover}
-.title-hero .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(255,255,255,.95) 30%,rgba(255,255,255,.3) 100%)}
+/* ── Title slide ── */
+.title-banner{position:relative;width:100%;max-width:56rem;border-radius:16px;overflow:hidden;margin-bottom:1.5rem;background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%);padding:2.5rem 3rem;display:flex;align-items:center;gap:2rem;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.title-banner img.emu-logo{height:90px;flex-shrink:0}
+.title-banner .title-text{color:#fff}
+.title-banner .title-text .dept{font-size:.78rem;opacity:.8;letter-spacing:.04em}
+.title-banner .title-text .fac{font-size:.88rem;opacity:.9;margin-top:.15rem}
+
+/* ── Photo caption ── */
+.photo-caption{font-size:.72rem;color:#94a3b8;text-align:center;margin-top:.3rem;font-style:italic}
+
+/* ── Split layout for image + text ── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;width:100%;max-width:58rem;align-items:center}
+.split img{width:100%;height:auto;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.split-text h2{margin-bottom:.5rem}
 
 /* ── Responsive ── */
 @media(max-width:900px){
@@ -123,8 +133,10 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   .tier{grid-template-columns:1fr;font-size:.82rem}
   .principle-grid{grid-template-columns:1fr}
   .stat .num{font-size:1.8rem}
-  .title-hero{height:150px}
-  .hero-img{height:140px}
+  .title-banner{flex-direction:column;text-align:center;padding:1.5rem}
+  .title-banner img.emu-logo{height:60px}
+  .hero-img{height:150px}
+  .split{grid-template-columns:1fr}
 }
 @media(max-width:520px){
   .slide{padding:1.2rem .8rem}
@@ -145,17 +157,18 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <!-- S1 — TITLE -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="slide center" data-section="opening">
-  <div class="title-hero">
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Eastern_Mediterranean_University%2C_Famagusta.jpg" alt="Eastern Mediterranean University campus, Famagusta">
-    <div class="overlay"></div>
+  <div class="title-banner">
+    <img class="emu-logo" src="https://ir.emu.edu.tr/_layouts/emu/images/logo/emu-logo-horizontalwhite-en.svg" alt="Eastern Mediterranean University Logo">
+    <div class="title-text">
+      <div class="dept">Faculty of Business &amp; Economics &middot; Department of Political Science &amp; International Relations</div>
+      <div class="fac">Department Seminar &middot; September 2026</div>
+    </div>
   </div>
-  <div class="section-label blue">Department Seminar &middot; September 2026</div>
   <h1>AI &amp; Pedagogy</h1>
   <h3 style="font-weight:400;color:#64748b">From Policy to Practice in Political Science Education</h3>
   <div class="mt-2" style="font-size:.95rem;color:#475569">
     <p><strong>Prof. Dr. Erol Kaymak</strong></p>
     <p style="margin-top:.2rem">Chair, Department of Political Science &amp; International Relations</p>
-    <p>Faculty of Business &amp; Economics &middot; Eastern Mediterranean University</p>
   </div>
   <div class="mt-3 small">Press &rarr; or tap right edge to begin</div>
 </div>
@@ -219,13 +232,13 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <!-- S5 — SCALE -->
 <div class="slide left" data-section="problem">
   <div class="section-label red">Act 1 &middot; The Problem</div>
-  <img class="hero-img" src="https://commons.wikimedia.org/wiki/Special:FilePath/AI_Artificial_Intelligence_concept_%2852917075159%29.jpg" alt="AI concept visualization">
+  <img class="hero-img" src="https://commons.wikimedia.org/wiki/Special:FilePath/Artificial_Intelligence_%26_AI_%26_Machine_Learning_-_30212411048.jpg" alt="AI and Machine Learning concept">
   <h2>The Scale of Disruption</h2>
   <blockquote>
     AI can now &ldquo;produce credible solutions and provide reasonable responses to almost any written assignment,&rdquo; including essays, math problems, proofs, and coding assignments.
     <cite>&mdash; MIT Committee on AI and Education, August 2026</cite>
   </blockquote>
-  <div class="grid-3 mt-2">
+  <div class="grid-3 mt-1">
     <div class="stat"><div class="num accent">1B+</div><div class="label">ChatGPT users in under 4 years</div></div>
     <div class="stat"><div class="num accent-amber">73%</div><div class="label">US faculty dealt with AI integrity issues</div></div>
     <div class="stat"><div class="num accent-red">~20%</div><div class="label">of institutions have issued AI policies</div></div>
@@ -239,10 +252,10 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <h2>What Students Are Doing &mdash; and Thinking</h2>
   <p class="mb-1">Digital Education Council Global Survey 2026 &mdash; 16,000+ students worldwide:</p>
   <div class="grid-2 mt-1">
-    <div class="card"><div class="stat"><div class="num" style="font-size:2rem;color:#2563eb">15%</div><div class="label">say AI is integrated into many of their courses</div></div></div>
-    <div class="card"><div class="stat"><div class="num" style="font-size:2rem;color:#d97706">42%</div><div class="label">say AI integration has been &ldquo;only somewhat helpful&rdquo;</div></div></div>
-    <div class="card"><div class="stat"><div class="num" style="font-size:2rem;color:#dc2626">60%</div><div class="label">worry classmates misuse AI for unfair advantage</div></div></div>
-    <div class="card"><div class="stat"><div class="num" style="font-size:2rem;color:#7c3aed">72%</div><div class="label">say assessments aren&rsquo;t aligned with an AI-enabled workplace</div></div></div>
+    <div class="card"><div class="stat"><div class="num" style="font-size:2.2rem;color:#2563eb">15%</div><div class="label">say AI is integrated into many of their courses</div></div></div>
+    <div class="card"><div class="stat"><div class="num" style="font-size:2.2rem;color:#d97706">42%</div><div class="label">say AI integration has been &ldquo;only somewhat helpful&rdquo;</div></div></div>
+    <div class="card"><div class="stat"><div class="num" style="font-size:2.2rem;color:#dc2626">60%</div><div class="label">worry classmates misuse AI for unfair advantage</div></div></div>
+    <div class="card"><div class="stat"><div class="num" style="font-size:2.2rem;color:#7c3aed">72%</div><div class="label">say assessments aren&rsquo;t aligned with an AI-enabled workplace</div></div></div>
   </div>
 </div>
 
@@ -297,8 +310,9 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <div class="slide center" data-section="taxonomy">
   <div class="section-label green">Act 2 &middot; A Taxonomy of AI-Enhanced Pedagogy</div>
   <h2>One Instructor. Four Courses. One Semester.</h2>
-  <p class="mt-1" style="max-width:44rem">What follows is not a catalogue of tools. It is a narrative about building course-specific digital pedagogy through conversation with an AI &mdash; from simple content delivery to advanced philosophical inquiry.</p>
-  <div class="grid-4 mt-2">
+  <img class="hero-img" src="https://ir.emu.edu.tr/PublishingImages/PSIR/Nico%20Carpentier%204th%20March%202026.jpg" alt="CPC seminar in session, March 2026 — Department of Political Science &amp; IR, EMU">
+  <p class="photo-caption">CPC Seminar, 4 March 2026 &mdash; in the near future, every event like this will have a QR code on screen.</p>
+  <div class="grid-4 mt-1">
     <div class="card blue center"><h3 class="accent">Level 1</h3><p class="small">Course Hub</p></div>
     <div class="card green center"><h3 class="accent-green">Level 2</h3><p class="small">Skills Scaffolding</p></div>
     <div class="card amber center"><h3 class="accent-amber">Level 3</h3><p class="small">Experiential Simulation</p></div>
@@ -402,12 +416,20 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <!-- S16 — LEVEL 3: PSIR172 -->
 <div class="slide left" data-section="taxonomy">
   <div class="section-label green">Level 3 &middot; Experiential Simulation</div>
-  <img class="hero-img short" src="https://commons.wikimedia.org/wiki/Special:FilePath/MUN-SH2005KielGermany.jpg" alt="Model United Nations delegates in session">
-  <h2>PSIR172 &mdash; Applied Skills: Model United Nations</h2>
-  <p>MUN requires country research, speech writing, negotiation strategy, and resolution drafting. Students often arrive unprepared. The gap between &ldquo;I know about refugees&rdquo; and &ldquo;I can represent Jordan&rsquo;s position&rdquo; is vast.</p>
-  <p class="mt-1"><strong>Solution:</strong> A complete MUN ecosystem from preparation through simulation to resolution drafting.</p>
-  <div class="mt-2 center">
-    <a class="demo-btn amber" href="https://efkaymak-del.github.io/PSIR172/psir172-mun-preparation-7may.html" target="_blank">&#128279; Open MUN Preparation Workshop</a>
+  <div class="split">
+    <div>
+      <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/debate%20on%20trumps%20m%C4%B1ddle%20east%20plan.jpg" alt="Student debate — Models for Peace in the Middle East, EMU Pugwash Club, November 2025">
+      <p class="photo-caption">Pugwash Club student debate, &ldquo;Models for Peace in the Middle East,&rdquo; November 2025</p>
+    </div>
+    <div class="split-text">
+      <h2>PSIR172 &mdash; Model United Nations</h2>
+      <p>MUN requires country research, speech writing, negotiation strategy, and resolution drafting. Students often arrive unprepared.</p>
+      <p class="mt-1"><strong>Solution:</strong> A complete MUN ecosystem from preparation through simulation to resolution drafting.</p>
+      <div class="mt-2">
+        <a class="demo-btn amber" href="https://efkaymak-del.github.io/PSIR172/psir172-mun-preparation-7may.html" target="_blank">&#128279; MUN Preparation Workshop</a>
+        <a class="demo-btn amber" href="https://efkaymak-del.github.io/PSIR172/" target="_blank">&#128279; Full PSIR172 Hub</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -433,9 +455,6 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
       <p>Instructor tools &middot; Resolution Drafting Guide &middot; Policy Brief Builder &middot; Campaigns App &middot; Assessment materials</p>
     </div>
   </div>
-  <div class="mt-2 center">
-    <a class="demo-btn amber" href="https://efkaymak-del.github.io/PSIR172/" target="_blank">&#128279; Open Full PSIR172 Hub</a>
-  </div>
 </div>
 
 <!-- S18 — LEVEL 3: KEY MOVE -->
@@ -454,6 +473,11 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <h2>PSIR308 &mdash; Contemporary Political Thought</h2>
   <p>Political theory is often taught as lecture &rarr; reading &rarr; essay. Students can define Rawls but can&rsquo;t tell you what happens when Fanon interrogates him.</p>
   <p class="mt-1"><strong>Solution:</strong> Scenario-based philosophical simulations where students apply theoretical lenses to dilemmas and discover their own commitments &mdash; then confront them in live debate.</p>
+  <div class="mt-2 center">
+    <a class="demo-btn purple" href="https://efkaymak-del.github.io/PSIR308/feminism-app.html" target="_blank">&#128279; Feminism Simulation</a>
+    <a class="demo-btn purple" href="https://efkaymak-del.github.io/PSIR308/communitarianism-app.html" target="_blank">&#128279; Communitarianism</a>
+    <a class="demo-btn purple" href="https://efkaymak-del.github.io/PSIR308/prepolitical.html" target="_blank">&#128279; Pre-Political (Beauvoir &amp; Fanon)</a>
+  </div>
 </div>
 
 <!-- S20 — LEVEL 4: SIMULATIONS -->
@@ -477,11 +501,6 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
       <h3>And more&hellip;</h3>
       <p>Self-Ownership Dilemma &middot; Alienation &middot; Invisible Labour &middot; The Boundary Problem &middot; Multiculturalism &middot; Nozick &middot; Libertarianism &middot; Citizenship &middot; Dworkin</p>
     </div>
-  </div>
-  <div class="mt-2 center">
-    <a class="demo-btn purple" href="https://efkaymak-del.github.io/PSIR308/feminism-app.html" target="_blank">&#128279; Feminism Simulation</a>
-    <a class="demo-btn purple" href="https://efkaymak-del.github.io/PSIR308/communitarianism-app.html" target="_blank">&#128279; Communitarianism</a>
-    <a class="demo-btn purple" href="https://efkaymak-del.github.io/PSIR308/prepolitical.html" target="_blank">&#128279; Pre-Political (Beauvoir &amp; Fanon)</a>
   </div>
 </div>
 
@@ -523,8 +542,10 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <!-- S23 — FULL PICTURE -->
 <div class="slide center" data-section="taxonomy">
   <div class="section-label green">The Full Picture</div>
-  <h1 style="font-size:2rem">4 courses &middot; ~60 applications &middot; 1 semester</h1>
-  <div class="grid-4 mt-2">
+  <img class="hero-img" src="https://ir.emu.edu.tr/PublishingImages/PSIR/2024-25%20Spring%20Honor%20Ceremony.jpg" alt="PSIR High Honor &amp; Honor Ceremony, December 2025">
+  <p class="photo-caption">PSIR High Honor &amp; Honor Ceremony, December 2025 &mdash; these are the students we build for.</p>
+  <h2 style="margin-top:.8rem">4 courses &middot; ~60 applications &middot; 1 semester</h2>
+  <div class="grid-4 mt-1">
     <div class="card blue center">
       <h3 class="accent">PSIR101</h3>
       <p class="small">Course hub &middot; Study games &middot; Essay lab &middot; Topic labs &middot; Slides</p>
@@ -542,7 +563,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
       <p class="small">Philosophical simulations &middot; Live workshops &middot; Scenario debates</p>
     </div>
   </div>
-  <p class="mt-2" style="max-width:48rem"><strong>None of this required programming skills.</strong> All of it was built through conversation with an AI. The instructor provides content expertise and pedagogical design. The AI provides technical execution.</p>
+  <p class="mt-1" style="max-width:48rem"><strong>None of this required programming skills.</strong> All of it was built through conversation with an AI. The instructor provides content expertise and pedagogical design. The AI provides technical execution.</p>
 </div>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -560,7 +581,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <div class="slide left" data-section="tools">
   <div class="section-label purple">Act 3 &middot; Accessible Tools</div>
   <h2>Brisk Teaching</h2>
-  <p>Free Chrome extension &mdash; #1 AI platform for teachers. Used in 10,000+ school districts. 95% Common Sense Privacy Rating.</p>
+  <p>Free Chrome extension &mdash; #1 AI platform for teachers. Used in 10,000+ school districts. 95% Common Sense Privacy Rating. The reason I advocate this specifically: it&rsquo;s <strong>always there</strong> &mdash; a sidebar inside Google Docs, Slides, and Forms, available the moment you need it, no separate tab or login.</p>
   <div class="grid-2 mt-2">
     <div class="card green">
       <h3>Create &amp; Differentiate</h3>
@@ -576,7 +597,31 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S26 — MOODLE & FORMS -->
+<!-- S26 — GEMINI NOTEBOOK -->
+<div class="slide left" data-section="tools">
+  <div class="section-label purple">Act 3 &middot; Accessible Tools</div>
+  <h2>Gemini Notebook (formerly NotebookLM)</h2>
+  <p>Google&rsquo;s free AI research tool, <a href="https://notebook.google.com/" target="_blank" class="accent" style="font-weight:600">renamed in July 2026</a>. Upload your own sources &mdash; PDFs, Google Docs, web links, YouTube videos &mdash; and the AI works <strong>only from those sources</strong>, with inline citations.</p>
+  <div class="grid-3 mt-2">
+    <div class="card blue">
+      <h3>&#127911; Audio Overviews</h3>
+      <p>Turn your readings into a podcast-style discussion. Imagine students listening to a 10-minute conversation about this week&rsquo;s articles &mdash; generated from the PDFs you already have.</p>
+    </div>
+    <div class="card green">
+      <h3>&#128218; Study Guides &amp; Quizzes</h3>
+      <p>Auto-generated study guides with key terms, sample quiz questions, essay prompts, and flashcards &mdash; all grounded in your course materials. Up to 100 notebooks free.</p>
+    </div>
+    <div class="card purple">
+      <h3>&#128202; Course Prep</h3>
+      <p>Upload your syllabus, policy documents, and lecture notes. Ask questions, generate summaries, identify gaps. Your personal research assistant that stays within your sources.</p>
+    </div>
+  </div>
+  <div class="mt-2 center">
+    <a class="demo-btn blue" href="https://notebook.google.com/" target="_blank">&#128279; notebook.google.com &mdash; try it now</a>
+  </div>
+</div>
+
+<!-- S27 — MOODLE & FORMS -->
 <div class="slide left" data-section="tools">
   <div class="section-label purple">Act 3 &middot; Tools You Already Have</div>
   <h2>Moodle &amp; Google Forms</h2>
@@ -593,28 +638,49 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="mt-2">You don&rsquo;t need custom apps to integrate AI-aware pedagogy. Existing tools support transparency, formative assessment, and structured reflection &mdash; if configured intentionally.</p>
 </div>
 
+<!-- S28 — TOOL LANDSCAPE -->
+<div class="slide center" data-section="tools">
+  <div class="section-label purple">Act 3 &middot; Choose Your Entry Point</div>
+  <h2>Three Tiers, One Goal</h2>
+  <div class="grid-3 mt-2">
+    <div class="card green center">
+      <h3 class="accent-green">Everyday Teaching</h3>
+      <p><strong>Brisk Teaching</strong><br>Chrome extension &middot; Always in your sidebar &middot; Quiz maker, rubric generator, feedback writer, text leveler</p>
+    </div>
+    <div class="card blue center">
+      <h3 class="accent">Research &amp; Course Prep</h3>
+      <p><strong>Gemini Notebook</strong><br>Upload your sources &middot; Audio overviews &middot; Study guides &middot; Grounded Q&amp;A with citations</p>
+    </div>
+    <div class="card amber center">
+      <h3 class="accent-amber">Assessment Infrastructure</h3>
+      <p><strong>Moodle + Google Forms</strong><br>Tools you already have &middot; Add AI disclosure fields &middot; Formative feedback loops</p>
+    </div>
+  </div>
+  <p class="mt-2" style="max-width:44rem">All three are free, require no coding, and can be started this week. The question is not <em>whether</em> to begin but <em>where</em>.</p>
+</div>
+
 <!-- ═══════════════════════════════════════════ -->
 <!-- ACT 4 — POLICY -->
 <!-- ═══════════════════════════════════════════ -->
 
-<!-- S27 — POLICY OVERVIEW -->
+<!-- S29 — POLICY OVERVIEW -->
 <div class="slide left" data-section="policy">
   <div class="section-label amber">Act 4 &middot; Policy as Enabler</div>
-  <h2>A Framework, Not a Ban</h2>
-  <p>The goal is not to prohibit AI use but to make it <strong>transparent, intentional, and educationally purposeful</strong>. The Department Council (14 September, Karar 1) and FBE AI Policy both adopt this principle.</p>
-  <div class="grid-2 mt-2">
-    <div class="card green">
-      <h3 class="accent-green">EU Trustworthy AI &mdash; 7 Principles</h3>
-      <p>Human agency &middot; Technical robustness &middot; Privacy &middot; Transparency &middot; Diversity &middot; Societal wellbeing &middot; Accountability</p>
+  <div class="split">
+    <div>
+      <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/%C4%B1nclus%C4%B1ve%20peace%20panel.jpg" alt="Panel on Inclusive Peace, EMU, October 2025">
+      <p class="photo-caption">CPC &ldquo;Inclusive Peace&rdquo; panel, October 2025</p>
     </div>
-    <div class="card blue">
-      <h3 class="accent">Applied to Student Work</h3>
-      <p>Every principle maps onto assessment: students must remain in control, be transparent about tool use, protect data, and take responsibility for their output.</p>
+    <div class="split-text">
+      <h2>A Framework, Not a Ban</h2>
+      <p>The goal is not to prohibit AI use but to make it <strong>transparent, intentional, and educationally purposeful</strong>.</p>
+      <p class="mt-1">The Department Council (14 September, Karar 1) and FBE AI Policy both adopt this principle.</p>
+      <p class="mt-1">EU Trustworthy AI &mdash; 7 Principles: Human agency &middot; Technical robustness &middot; Privacy &middot; Transparency &middot; Diversity &middot; Societal wellbeing &middot; Accountability</p>
     </div>
   </div>
 </div>
 
-<!-- S28 — THREE-TIER -->
+<!-- S30 — THREE-TIER -->
 <div class="slide left" data-section="policy">
   <div class="section-label amber">Act 4 &middot; Policy as Enabler</div>
   <h2>Three-Tier AI Use Taxonomy</h2>
@@ -626,7 +692,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S29 — DISCLOSURE -->
+<!-- S31 — DISCLOSURE -->
 <div class="slide center" data-section="policy">
   <div class="section-label amber">Act 4 &middot; Policy as Enabler</div>
   <h2>The Disclosure Statement</h2>
@@ -636,7 +702,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="mt-2" style="max-width:44rem">This language is drawn from the FBE AI Policy (v1.0) and will appear on all assignment submission pages.</p>
 </div>
 
-<!-- S30 — SYLLABUS CLAUSE -->
+<!-- S32 — SYLLABUS CLAUSE -->
 <div class="slide center" data-section="policy">
   <div class="section-label amber">Act 4 &middot; Policy as Enabler</div>
   <h2>Provisional Syllabus Clause</h2>
@@ -650,23 +716,31 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <!-- ACT 5 — ADMIN TOOLS -->
 <!-- ═══════════════════════════════════════════ -->
 
-<!-- S31 — ADMIN OVERVIEW -->
+<!-- S33 — ADMIN OVERVIEW -->
 <div class="slide left" data-section="admin">
   <div class="section-label blue">Act 5 &middot; AI for Administration</div>
-  <h2>Beyond the Classroom</h2>
-  <p>AI-enhanced pedagogy also means AI-enhanced administration. The Department Council (Karar 3) noted the potential for AI tools in departmental operations.</p>
-  <div class="grid-3 mt-2">
-    <div class="card blue">
-      <h3>Microsoft Teams</h3>
-      <p>Channel structure for DKGK coordination &middot; Meeting transcription &middot; Copilot summaries &middot; Shared files and task tracking</p>
+  <div class="split">
+    <div class="split-text">
+      <h2>Beyond the Classroom</h2>
+      <p>AI-enhanced pedagogy also means AI-enhanced administration. The Department Council (Karar 3) noted the potential for AI tools in departmental operations.</p>
+      <div class="grid-3 mt-2" style="max-width:100%">
+        <div class="card blue">
+          <h3>Teams</h3>
+          <p>Channel structure &middot; Meeting transcription &middot; Copilot summaries &middot; Shared files</p>
+        </div>
+        <div class="card green">
+          <h3>Planner</h3>
+          <p>Accreditation task boards &middot; Deadline tracking &middot; Progress dashboards</p>
+        </div>
+        <div class="card purple">
+          <h3>AI Minutes</h3>
+          <p>Recording &rarr; transcription &rarr; structured minutes &rarr; action items</p>
+        </div>
+      </div>
     </div>
-    <div class="card green">
-      <h3>Microsoft Planner</h3>
-      <p>Accreditation task boards &middot; Deadline tracking &middot; Assignment of responsibilities &middot; Progress dashboards</p>
-    </div>
-    <div class="card purple">
-      <h3>AI-Assisted Minutes</h3>
-      <p>Meeting recordings &rarr; auto-transcription &rarr; structured minutes &rarr; action items extracted. Draft, review, approve &mdash; not replace.</p>
+    <div>
+      <img src="https://ir.emu.edu.tr/PublishingImages/PSIR/Eiki%20Berg%2026%20Feb%202026.jpg" alt="CPC Seminar — De Facto States, February 2026">
+      <p class="photo-caption">CPC Seminar, February 2026 &mdash; meeting transcription and AI-assisted minutes can free up time for substance.</p>
     </div>
   </div>
 </div>
@@ -675,14 +749,16 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 <!-- ACT 6 — DISCUSSION -->
 <!-- ═══════════════════════════════════════════ -->
 
-<!-- S32 — DISCUSSION INTRO -->
+<!-- S34 — DISCUSSION INTRO -->
 <div class="slide center" data-section="discussion">
   <div class="section-label purple">Act 6 &middot; Discussion</div>
-  <h2>Over to You</h2>
+  <img class="hero-img" src="https://ir.emu.edu.tr/PublishingImages/PSIR/Isil%20Gurler.jpg" alt="CPC Seminar — A Diplomat&rsquo;s Life, December 2025">
+  <p class="photo-caption">CPC Seminar with Consul General I&#351;&#305;l G&uuml;rler, December 2025</p>
+  <h2 style="margin-top:.8rem">Over to You</h2>
   <p class="mt-1" style="max-width:44rem">Four prompts for open conversation. Take any one &mdash; or raise your own.</p>
 </div>
 
-<!-- S33 — PROMPT 1 -->
+<!-- S35 — PROMPT 1 -->
 <div class="slide center" data-section="discussion">
   <div class="section-label purple">Discussion Prompt 1</div>
   <div class="discussion">
@@ -691,7 +767,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S34 — PROMPT 2 -->
+<!-- S36 — PROMPT 2 -->
 <div class="slide center" data-section="discussion">
   <div class="section-label purple">Discussion Prompt 2</div>
   <div class="discussion">
@@ -700,7 +776,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S35 — PROMPT 3 -->
+<!-- S37 — PROMPT 3 -->
 <div class="slide center" data-section="discussion">
   <div class="section-label purple">Discussion Prompt 3</div>
   <div class="discussion">
@@ -709,7 +785,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S36 — PROMPT 4 -->
+<!-- S38 — PROMPT 4 -->
 <div class="slide center" data-section="discussion">
   <div class="section-label purple">Discussion Prompt 4</div>
   <div class="discussion">
@@ -718,7 +794,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S37 — WHAT NEXT -->
+<!-- S39 — WHAT NEXT -->
 <div class="slide center" data-section="discussion">
   <div class="section-label purple">What Comes Next?</div>
   <h2>Possible Department Actions</h2>
@@ -734,7 +810,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S38 — CLOSING POLL -->
+<!-- S40 — CLOSING POLL -->
 <div class="slide center" data-section="closing">
   <div class="section-label blue">Before You Go</div>
   <h2>One More Scan</h2>
@@ -745,7 +821,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   <p class="small mt-1">Or open: <a class="accent" href="https://forms.gle/e9Lxx98GAeT76RuN9" target="_blank" style="font-weight:600">forms.gle/e9Lxx98GAeT76RuN9</a></p>
 </div>
 
-<!-- S39 — ACTION ITEMS -->
+<!-- S41 — ACTION ITEMS -->
 <div class="slide left" data-section="closing">
   <div class="section-label blue">Immediate Action Items</div>
   <h2>What Happens Next</h2>
@@ -769,9 +845,9 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
   </div>
 </div>
 
-<!-- S40 — THANK YOU -->
+<!-- S42 — THANK YOU -->
 <div class="slide center" data-section="closing">
-  <img class="hero-img" src="https://commons.wikimedia.org/wiki/Special:FilePath/Famagusta_01-2017_img16_view_of_the_walled_city.jpg" alt="View of Famagusta walled city, North Cyprus">
+  <img class="hero-img tall" src="https://commons.wikimedia.org/wiki/Special:FilePath/Famagusta_01-2017_img16_view_of_the_walled_city.jpg" alt="View of Famagusta walled city, North Cyprus">
   <h2>Thank You</h2>
   <p class="mt-1" style="max-width:46rem">This presentation was built as a single-page HTML application through conversation with Claude (Anthropic). It is hosted on GitHub Pages and freely accessible to all department members.</p>
   <div class="mt-2" style="font-size:.95rem;color:#475569">
@@ -780,7 +856,7 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
     <p>Faculty of Business &amp; Economics &middot; Eastern Mediterranean University</p>
     <p style="margin-top:.3rem">erol.kaymak@emu.edu.tr &middot; BE152</p>
   </div>
-  <p class="small mt-3" style="max-width:56rem"><strong>Image credits:</strong> EMU Campus: &copy; Mosbatho, Wikimedia Commons, CC BY 4.0 &middot; AI Concept: Jernej Furman, Wikimedia Commons, CC BY 2.0 &middot; EU Flags: Thijs ter Haar, CC BY 2.0 &middot; MUN Delegates: Hendrik Wohlfahrt, CC BY-SA 2.5 &middot; Famagusta: A.Savin, Free Art License &middot; MIT Dome: Fcb981, CC BY-SA 3.0</p>
+  <p class="small mt-3" style="max-width:56rem"><strong>Image credits:</strong> Department event photos: PSIR Department &amp; Cyprus Policy Center, EMU (used with permission) &middot; AI &amp; Machine Learning: Mike MacKenzie, Wikimedia Commons, CC BY 2.0 &middot; EU Flags: Thijs ter Haar, CC BY 2.0 &middot; Famagusta: A.Savin, Free Art License &middot; EMU Logo: Eastern Mediterranean University</p>
   <p class="small" style="max-width:56rem"><strong>Data:</strong> MIT AI &amp; Education Report 2026 &middot; DEC Global Survey 2026 &middot; AAC&amp;U 2026 &middot; EU HLEG on AI 2019 &middot; Dept. Council Minutes 2026/6 &middot; FBE AI Policy v1.0</p>
 </div>
 
@@ -808,13 +884,11 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
     if(e.key==='Home'){e.preventDefault();go(0);}
     if(e.key==='End'){e.preventDefault();go(slides.length-1);}
   });
-  /* click / tap navigation — left 30% = back, right 70% = forward */
   deck.addEventListener('click',function(e){
     if(e.target.closest('a,button,.demo-btn')) return;
     var r=deck.getBoundingClientRect();
     (e.clientX-r.left)/r.width<0.3?go(cur-1):go(cur+1);
   });
-  /* swipe */
   let sx=0;
   deck.addEventListener('touchstart',function(e){sx=e.changedTouches[0].clientX;},{passive:true});
   deck.addEventListener('touchend',function(e){
@@ -826,7 +900,4 @@ blockquote cite{display:block;margin-top:.4rem;font-style:normal;font-size:.82re
 </body>
 </html>
 
-
-</body>
-</html>
 
