@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PSIR Course Outline Alignment Dashboard · Rev 2 · 31 Oct 2026</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1d2433;--muted:#6b7385;--line:#e2e6ed;--navy:#1f3a5f;--accent:#2f6fb3;
+--ok:#2e8b57;--warn:#c98200;--bad:#c0392b;--okbg:#e6f4ec;--warnbg:#fdf3dc;--badbg:#fbe9e7}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+header{background:var(--navy);color:#fff;padding:20px 28px 10px}
+header h1{margin:0;font-size:22px}
+header .meta{opacity:.8;font-size:13px;margin-top:4px}
+nav{display:flex;gap:2px;padding:0 20px;background:var(--navy);flex-wrap:wrap;position:sticky;top:0;z-index:5}
+nav button{background:none;border:0;color:#c9d4e5;padding:11px 14px;font-size:14px;cursor:pointer;border-bottom:3px solid transparent}
+nav button:hover{color:#fff}
+nav button.active{color:#fff;border-bottom-color:#7fb3ff}
+main{padding:24px 28px;max-width:1400px;margin:0 auto}
+section{display:none}section.active{display:block}
+h2{font-size:18px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 18px}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card h3{margin:0 0 8px;font-size:15px}
+.big{font-size:30px;font-weight:700;line-height:1.1}
+.finding{border-left:5px solid var(--bad)}
+.finding.w{border-left-color:var(--warn)}.finding.o{border-left-color:var(--ok)}
+.pill{display:inline-block;padding:1px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--okbg);color:var(--ok)}.warn{background:var(--warnbg);color:var(--warn)}.bad{background:var(--badbg);color:var(--bad)}.na{background:#eef0f4;color:var(--muted)}
+.bar{height:10px;background:#eef0f4;border-radius:6px;overflow:hidden}
+.bar>span{display:block;height:100%}
+.krow{display:grid;grid-template-columns:1fr 70px;gap:4px 12px;align-items:center;margin-bottom:10px}
+.krow .lbl{font-size:13px}.krow .val{text-align:right;font-weight:600}
+table{width:100%;border-collapse:collapse;background:var(--card)}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#f0f3f8;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);position:sticky;top:44px}
+tr.click{cursor:pointer}tr.click:hover td{background:#f7f9fd}
+.tablewrap{border:1px solid var(--line);border-radius:10px;overflow:auto}
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.controls input[type=search],.controls select{padding:7px 10px;border:1px solid var(--line);border-radius:6px;font-size:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.seg label{padding:7px 12px;cursor:pointer;font-size:13px}
+.seg input{display:none}
+.seg input:checked+span{font-weight:700;color:var(--accent)}
+.caprow{display:grid;grid-template-columns:150px 1fr 170px;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.captrack{position:relative;height:22px;background:#eef0f4;border-radius:4px}
+.captrack .m{position:absolute;top:0;bottom:0;left:0;background:var(--navy)}
+.captrack .f{position:absolute;top:0;bottom:0;background:var(--accent)}
+.captrack .line{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--bad);left:65%}
+.captrack .txt{position:absolute;right:6px;top:2px;font-size:12px;font-weight:700}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin:8px 0 12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:4px;vertical-align:-2px}
+.heat td,.heat th{text-align:center;padding:6px 4px;min-width:34px}
+.heat td:first-child,.heat th:first-child{text-align:left;min-width:90px}
+.cell{display:inline-block;width:22px;height:22px;border-radius:4px;background:#eef0f4}
+.cell.on{background:var(--accent)}
+.cell.over{background:var(--warn);outline:2px solid #7a4f00}
+.cell.miss{background:#fff;outline:2px dashed var(--bad)}
+.blankrow td{background:repeating-linear-gradient(45deg,#fbe9e7,#fbe9e7 6px,#fff 6px,#fff 12px)}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#e1e4ea}
+.dot.on{background:var(--ok)}.dot.off{background:var(--bad)}
+.sep{border-left:2px solid var(--navy)!important}
+.modal{position:fixed;inset:0;background:rgba(20,30,50,.45);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:20;overflow:auto}
+.modal.open{display:flex}
+.modal .box{background:#fff;border-radius:12px;max-width:820px;width:100%;padding:22px 24px;position:relative}
+.modal .x{position:absolute;right:14px;top:10px;border:0;background:none;font-size:24px;cursor:pointer;color:var(--muted)}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:6px 14px;margin:10px 0}
+.kv div:nth-child(odd){color:var(--muted)}
+.note{background:#f0f5fc;border:1px solid #cfe0f5;border-radius:8px;padding:10px 14px;font-size:13px;margin:12px 0}
+.note.amber{background:var(--warnbg);border-color:#f0d9a0}
+.due{font-size:12px}
+tr.done td{opacity:.45;text-decoration:line-through}
+.crit{color:var(--bad);font-weight:700}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:30px}
+@media(max-width:700px){.caprow{grid-template-columns:90px 1fr}.caprow .st{grid-column:1/-1}.kv{grid-template-columns:1fr}}
+@media print{nav,.controls{display:none}section{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Course Outline Alignment — STAR · FIBAA · Faculty Policy</h1>
+  <div class="meta">PSIR Department · Eastern Mediterranean University · Revision 2 · 31 October 2026 · 16 outlines (13 BA, 3 postgraduate) · Working report for the Departmental Board and QA Committee</div>
+</header>
+<nav id="tabs">
+  <button data-t="overview" class="active">Overview</button>
+  <button data-t="courses">Courses</button>
+  <button data-t="cap">65% cap</button>
+  <button data-t="plo">PLO map</button>
+  <button data-t="rules">Rules</button>
+  <button data-t="fibaa">FIBAA</button>
+  <button data-t="actions">Actions</button>
+</nav>
+<main>
+
+<!-- OVERVIEW -->
+<section id="overview" class="active">
+  <h2>Verdict</h2>
+  <p class="sub">The teaching holds up; the gap is documentary. The work is propagation and repair, not invention — with one exception: several year 2–4 courses need genuine re-weighting.</p>
+  <div class="grid g4" id="findings"></div>
+  <h2 style="margin-top:26px">Lens verdicts</h2>
+  <div class="grid g3" style="margin-top:10px">
+    <div class="card"><h3>STAR <span class="pill warn">Thin evidence</span></h3>Content strong, alignment evidence thin. Two outlines (PSIR 307, 309) carry the evidentiary weight for sixteen.</div>
+    <div class="card"><h3>FIBAA <span class="pill bad">Exposure on 3.1.3</span></h3>Decisive criteria are 1.1 and 3.1.3. A curriculum map that leaves two compulsory modules unmapped is a direct 3.1.3 exposure.</div>
+    <div class="card"><h3>Faculty rules <span class="pill warn">Partial</span></h3>The NG and AI block reached 14 of 16 outlines in September. The 65% rule has not yet reached the assessment tables.</div>
+  </div>
+  <h2 style="margin-top:26px">What the set shows</h2>
+  <div class="card" style="margin-top:10px" id="kpis"></div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <h2>The 16 outlines against all lenses</h2>
+  <p class="sub">Click a row for the full course record. The exam column follows the source selected on the 65% tab.</p>
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search code, title, verdict…">
+    <select id="lvl"><option value="">All levels</option><option>BA</option><option>PG</option></select>
+    <label><input type="checkbox" id="probs"> Only courses with an exam-cap problem</label>
+  </div>
+  <div class="tablewrap"><table id="ctable"></table></div>
+</section>
+
+<!-- CAP -->
+<section id="cap">
+  <h2>Rule 4 — Combined midterm + final ≤ 65%</h2>
+  <p class="sub">Department decision, 23 September 2026. The report's arithmetic uses the FIBAA Module Handbook weights; the report flags the outline check as outstanding (§8.2).</p>
+  <div class="controls">
+    <div class="seg">
+      <label><input type="radio" name="src" value="hb" checked><span>Handbook weights (report)</span></label>
+      <label><input type="radio" name="src" value="ol"><span>2026-27 outline weights</span></label>
+    </div>
+  </div>
+  <div class="grid g4" id="capkpi"></div>
+  <div class="card" style="margin-top:16px">
+    <div class="legend"><span><i style="background:var(--navy)"></i>Midterm</span><span><i style="background:var(--accent)"></i>Final</span><span><i style="background:var(--bad)"></i>65% cap</span></div>
+    <div id="capchart"></div>
+  </div>
+  <div class="note amber" id="capnote"></div>
+</section>
+
+<!-- PLO -->
+<section id="plo">
+  <h2>Board-level module map and STAR reach</h2>
+  <p class="sub">Hover a column header for the outcome text. STAR reach is computed from the Board's STAR ↔ PLO mapping (§4.2).</p>
+  <div class="legend"><span><i style="background:var(--accent)"></i>Mapped</span><span><i style="background:var(--warn)"></i>Questionable claim</span><span><i style="background:#fff;outline:2px dashed var(--bad)"></i>Missing claim</span><span><i style="background:#fbe9e7"></i>No mapping at all (D1)</span></div>
+  <div class="tablewrap"><table class="heat" id="heat"></table></div>
+  <h2 style="margin-top:26px">Map defects to fix before propagation</h2>
+  <p class="sub">Action 1 must precede Action 2: propagating a defective map multiplies the defect.</p>
+  <div class="tablewrap"><table id="defects"></table></div>
+  <h2 style="margin-top:26px">ECTS coherence</h2>
+  <div class="tablewrap"><table id="ects"></table></div>
+</section>
+
+<!-- RULES -->
+<section id="rules">
+  <h2>The four rules on one page</h2>
+  <p class="sub">One block, four lenses, no parallel paperwork.</p>
+  <div class="grid g3">
+    <div class="card">
+      <h3>Rule 1 — CLO five-part test</h3>
+      <table><tbody>
+        <tr><td><b>Provenance</b></td><td>Each CLO descends from an adopted PLO or STAR competence</td></tr>
+        <tr><td><b>Coverage</b></td><td>Every claimed PLO has at least one CLO</td></tr>
+        <tr><td><b>Observability</b></td><td>Verb + object + standard</td></tr>
+        <tr><td><b>Assessability</b></td><td>Named instrument, weight, recorded result</td></tr>
+        <tr><td><b>Economy</b></td><td>Four to six CLOs, clustered knowledge / skills / judgement</td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <h3>Rule 2 — NG decision (17 Sept 2026)</h3>
+      <p style="margin:0 0 8px;font-size:13px">Conjunctive test: NG only if <i>both</i> attendance and every assessment condition are unmet.</p>
+      <table><thead><tr><th>Attendance</th><th>Assessment met</th><th>Outcome</th></tr></thead><tbody>
+        <tr><td>None</td><td>None</td><td><span class="pill bad">NG</span></td></tr>
+        <tr><td>None</td><td>One quiz / submission</td><td><span class="pill ok">Grade</span></td></tr>
+        <tr><td>Satisfied</td><td>None</td><td><span class="pill warn">Open point</span></td></tr>
+        <tr><td>Satisfied</td><td>At least one</td><td><span class="pill ok">Grade</span></td></tr>
+      </tbody></table>
+      <p style="font-size:12px;color:var(--muted)">Also to settle: NC vs NG terminology across documents.</p>
+    </div>
+    <div class="card">
+      <h3>Rule 3 — AI tiers per instrument</h3>
+      <table><tbody>
+        <tr><td><span class="pill ok">A · Open</span></td><td>Brainstorming, structure, discovery, editing; declaration and AI passages identified. <i>Tutorials, drafts, presentations</i></td></tr>
+        <tr><td><span class="pill warn">B · Conditional</span></td><td>Named tasks only; declaration plus prompt appendix. <i>Research papers, memos, simulations</i></td></tr>
+        <tr><td><span class="pill bad">C · Restricted</span></td><td>No AI; devices removed; use is misconduct. <i>Midterm, final, in-class quizzes</i></td></tr>
+      </tbody></table>
+      <p style="font-size:12px;color:var(--muted)">0 of 16 outlines currently differentiate AI by instrument.</p>
+    </div>
+  </div>
+  <h2 style="margin-top:26px">Closing a 65% gap without weakening the course</h2>
+  <p class="sub">Move points from the final to an instrument that tests a CLO the exam tests poorly. Do not add a recall quiz just to move the number.</p>
+  <div class="tablewrap"><table id="reweight"></table></div>
+</section>
+
+<!-- FIBAA -->
+<section id="fibaa">
+  <h2>What the FIBAA assessors will actually test</h2>
+  <p class="sub">54 criteria, 29 asterisk criteria. BA programmes only (planning meeting, 14 July 2026). Visit: April 2027.</p>
+  <div class="note">“If no more than five asterisk criteria are not fulfilled and criteria 1.1 … and 3.1.3 … are at least satisfied, accreditation will be granted with conditions.” — FIBAA Assessment Guide 2025, p. 3. <b>1.1 and 3.1.3 sit outside the five-criterion allowance.</b></div>
+  <div class="tablewrap"><table id="ftable"></table></div>
+</section>
+
+<!-- ACTIONS -->
+<section id="actions">
+  <h2>Priority actions</h2>
+  <p class="sub"><span class="crit">●</span> marks actions that change an accreditation verdict. Tick-boxes are saved in your own browser only.</p>
+  <div class="grid g4" id="actkpi" style="margin-bottom:16px"></div>
+  <div class="tablewrap"><table id="atable"></table></div>
+</section>
+</main>
+
+<div class="modal" id="modal"><div class="box"><button class="x" onclick="closeModal()">×</button><div id="mbody"></div></div></div>
+
+<footer>Generated from “Course Outline Alignment Report – STAR, FIBAA and Faculty Policy”, Revision 2, 31 October 2026. Outline-weight figures and “observed in outline” notes were read from the 2026-27 outlines and are not part of the report.</footer>
+
+<script>
+/* ===================== DATA ===================== */
+const IRT={1:"Define and compare the basic assumptions and contributions of IR theories",2:"Modern European history from the Enlightenment to 1945",3:"Evolution of the post-1945 economic and political order",4:"Forms of governance at state and international level",5:"Apply IR concepts to current events",6:"Analyse and critically evaluate complex international phenomena",7:"Historical, political, social and economic structure of the Middle East",8:"Globalisation and its impact on the state",9:"Concepts and institutions of international law; law and politics",10:"Influences on foreign policy: decision-makers, organisations, parties, groups, public"};
+const PST={1:"Differing approaches to politics; interpret regimes and issues",2:"Principal ideologies and thinkers from Plato to Marx",3:"Political interaction at individual and group levels",4:"Design and implementation of policy decisions",5:"Interpret research findings on political questions",6:"Bureaucracy, parties, local government and civil society",7:"Core constitutional and regime concepts",8:"Basic concepts of political sociology"};
+const STAR_N={1:"Theoretical & factual knowledge",2:"Cognitive & applied skills",3:"Independent work & responsibility",4:"Learning competence",5:"Communication & social competence",6:"Field-specific competences"};
+const STAR_IR={1:[1,2,3,4],2:[1,4,5,6,7,8,9,10],3:[5,6,8,9,10],4:[1,2,3,4],5:[5,6],6:[1,2,3,4,8,9,10]};
+const STAR_PS={1:[1,2,6,7,8],2:[1,3,4,5,7],3:[3,4,5],4:[1,2,6,7],5:[3,4],6:[1,2,3,4,5,6,7,8]};
+
+const C=[
+{code:"PSIR 101",title:"Introduction to Global Politics",level:"BA",year:"1",clos:"7",plo:0,amap:0,aing:1,hb:[30,40],ol:[30,40],scale:0,acc:0,cur:1,ir:[1,4,5,6,8],ps:[1,4,5,6,8],verdict:"Strong content; alignment missing",action:"Compress to 5, tag, add PLO extract",obs:[]},
+{code:"PSIR 104",title:"Introduction to Political Science",level:"BA",year:"1",clos:"10",plo:0,amap:0,aing:1,hb:[35,40],ol:[30,40],scale:0,acc:0,cur:1,ir:[2,4,6,7],ps:[2,4,6,7],verdict:"Strong; compress and map",action:"Cluster to 5–6",defect:"D5",obs:[]},
+{code:"PSIR 203",title:"Politics and Society",level:"BA",year:"2",clos:"9",plo:0,amap:0,aing:1,hb:[35,40],ol:[30,40],scale:0,acc:0,cur:1,ir:[1,2,3,6,7],ps:[1,2,3,6,7],verdict:"Strong; compress and map",action:"Cluster to 5–6",obs:["Brief weights (20%) + facilitation (10%) sum correctly to 'In-class activities 30%'."]},
+{code:"PSIR 301",title:"Politics of the Middle East",level:"BA",year:"3",clos:"4",plo:0,amap:0,aing:1,hb:[25,35],ol:[30,40],scale:0,acc:0,cur:1,ir:[7,8,10],ps:[6,7,8],verdict:"Rebuild outcomes first",action:"Rebuild outcomes from Middle East aims, then map; add a STAR 5 CLO",defect:"D7",ects:[5,6],obs:["AI block reads “what it means for you in PSIR101”.","Outline lists midterm 30 / final 40 (= 70), not the handbook's 25 / 35."]},
+{code:"PSIR 303",title:"Territorial Politics",level:"BA",year:"3",clos:"9",plo:0,amap:0,aing:1,hb:[30,40],ol:[25,35],scale:0,acc:0,cur:1,ir:[1,3,4,6],ps:[1,3,4,6],verdict:"Strong; compress and map",action:"Cluster to 5–6",obs:["Placeholders remain: supplementary list and Cyprus background materials “to be added”."]},
+{code:"PSIR 305",title:"Foreign Policy Analysis",level:"BA",year:"3",clos:"7",plo:0,amap:0,aing:1,hb:[25,35],ol:[30,40],scale:1,acc:0,cur:1,ir:[4,5,6,8,9,10],ps:[5,6,7,8],verdict:"Remove 4 generic outcomes, then map",action:"Remove the four generic IR outcomes, then map",ects:[7,6],obs:["Attendance box still states the old “80% / NG” rule, contradicting the 17 Sept NG clause in the same outline.","AI block reads “in PSIR101”.","Outline lists midterm 30 / final 40 (= 70)."]},
+{code:"PSIR 307",title:"History of Political Thought",level:"BA",year:"3",clos:"7 CO + 3 module",plo:1,amap:1,aing:1,hb:[25,25],ol:[20,25],scale:1,acc:1,cur:1,ir:[1,5,6,8],ps:[1,5,8],verdict:"Model — verify cells; do not lengthen",action:"Verify each PLO cell; do not lengthen",defect:"D3",ects:[7,7],obs:["Faculty AI policy URL is truncated (“…policy-for-fbe”, missing “-students”)."]},
+{code:"PSIR 309",title:"Political Culture",level:"BA",year:"3",clos:"6",plo:1,amap:1,aing:1,hb:[20,30],ol:[25,30],scale:0,acc:0,cur:1,ir:[1,3,4,5,6,7],ps:[1,3,5,8],verdict:"Model — add STAR 5 tag; IR mapping if shared",action:"Add a STAR 5 tag to LO6; add IR mapping if IR students take it",obs:[]},
+{code:"PSIR 311",title:"International Political Economy",level:"BA",year:"3",clos:"10",plo:0,amap:0,aing:1,hb:[30,40],ol:[25,35],scale:1,acc:0,cur:1,ir:[],ps:[],verdict:"Blocked — Board maps it first",action:"Board maps it first; then cluster to 5–6",defect:"D1",ects:[7,6],obs:["Grading criteria are descriptive (A–F), not a numeric scale."]},
+{code:"PSIR 401",title:"Contemporary Political Ideologies",level:"BA",year:"4",clos:"7",plo:0,amap:0,aing:1,hb:[35,30],ol:[30,40],scale:0,acc:0,cur:1,ir:[1,3,6,7,8,10],ps:[1,3,5,8],verdict:"Fix aims; map",action:"Fix the aims, keep the outcomes",defect:"D3",ects:[7,6],obs:["AI block reads “in PSIR101”.","Outline lists midterm 30 / final 40 (= 70), not the handbook's 35 / 30."]},
+{code:"PSIR 405",title:"International Law",level:"BA",year:"4",clos:"13",plo:0,amap:0,aing:1,hb:[35,40],ol:[25,40],scale:0,acc:0,cur:1,ir:[3,4,5,8,9],ps:[3,4,5,8],verdict:"Cluster to 6; map",action:"Cluster to 6; keep knowledge / skills / values structure",ects:[7,6],obs:["Prerequisite listed as PSIR120, but text says “no formal prerequisite”.","AI rule 1 still contains the template placeholder “[name of the written work…]”."]},
+{code:"PSIR 406",title:"Political Participation",level:"BA",year:"3–4",clos:"5",plo:0,amap:0,aing:0,hb:[30,30],ol:[30,30],scale:0,acc:0,cur:0,ir:[1,3,5,8],ps:[1,3,5,8],verdict:"Stale — rebuild",action:"Rebuild for 2026-27",obs:["Document is for Spring 2025-26 with 2025 dates."]},
+{code:"PSIR 409",title:"Politics of Transition and Civil Society",level:"BA",year:"4",clos:"10",plo:0,amap:0,aing:1,hb:[30,40],ol:[25,35],scale:0,acc:0,cur:1,ir:[1,3,4,5,6,7],ps:[1,3,4,5,6,7],verdict:"Compress and map",action:"Cluster to 5–6",ects:[7,6],ectsNote:"Explained by 2026 normalisation (7 → 6)",obs:["Reading list placeholder: Wolkenstein “[check journal and year — Constellations]”."]},
+{code:"INTL 522",title:"International Political Economy (MA)",level:"PG",year:"MA",clos:"8",plo:0,amap:0,aing:1,hb:null,ol:[25,35],scale:1,acc:0,cur:1,ir:[],ps:[],verdict:"Duplicate of INTL 603; decide owner",action:"Decide which owns the syllabus; differentiate the other",obs:["Weekly schedule still carries student names against readings."]},
+{code:"INTL 603",title:"Global Political Economy (MA)",level:"PG",year:"MA",clos:"8",plo:0,amap:0,aing:1,hb:null,ol:[25,35],scale:1,acc:0,cur:1,ir:[],ps:[],verdict:"Duplicate of INTL 522; decide owner",action:"Decide which owns the syllabus; differentiate the other",obs:[]},
+{code:"INTL 639",title:"International System: Structures and Transformations",level:"PG",year:"PhD",clos:"7",plo:0,amap:0,aing:0,hb:null,ol:[0,0],scale:0,acc:0,cur:0,ir:[],ps:[],verdict:"2021 document — rebuild or withdraw",action:"Rebuild or withdraw",obs:["Outline states Course Level: Doctorate (report groups it with MA).","No exams: seminar paper 50, book review 30, participation 20.","Dates and lockdown references from 2021."]}
+];
+
+const DEFECTS=[
+["D1","PSIR 310, PSIR 311","No PLO or educational-objective mapping in either board document, although 310 is compulsory in both programmes and 311 in BA IR","No CLO can be derived; any coordinator mapping would be unauthorised","Board resolution before the Spring cycle",true],
+["D2","PSIR 201","Core IR theory course not mapped to IR-PÇ 1","Cannot evidence the outcome it most obviously delivers","Add IR-PÇ 1, or record why not"],
+["D3","PSIR 307, 308, 401","No mapping to PS-PÇ 2 (theory canon) in modules that teach it","PS theory core under-claimed","Add PS-PÇ 2 to at least 307 and 401"],
+["D4","PSIR 120","No IR-PÇ 9 and no PS-PÇ 7","Law course claims neither law outcome","Add both, or justify"],
+["D5","PSIR 104","Mapped to IR-PÇ 7 (Middle East)","Implausible in an intro to political science","Remove or evidence"],
+["D6","PSIR 206","No IR-PÇ 3 in a course covering 1945 onwards","Outcome taught but not claimed","Add IR-PÇ 3"],
+["D7","PSIR 301","No educational-objective mapping on the PS side","Programme attribution incomplete","Add the PS EA row"]];
+const FLAGS={"PSIR 104":{IR7:"over"},"PSIR 307":{PS2:"miss"},"PSIR 401":{PS2:"miss"}};
+
+const KPIS=[["Outlines stating the course's PLO contribution",2,16,"PSIR 307, 309"],["Audited BA modules with a Board-level PLO map",12,13,"PSIR 311 has none"],["Outlines mapping assessment to individual CLOs",2,16,"PSIR 307, 309"],["AI and NG policy block present",14,16,"PSIR 406, 639 missing"],["AI rules differentiated by assessment",0,16,"One uniform block"],["Combined midterm + final ≤ 65% (handbook)",6,13,"7 breach, 5 in years 2–4"],["Grading scale published",5,16,"305, 307, 311, 522, 603"],["Accommodation statement",1,16,"PSIR 307"],["Part B criterion named",0,16,"None"],["Current for 2026-27",14,16,"PSIR 406, INTL 639 stale"]];
+
+const FINDINGS=[
+["bad","7 / 13","BA modules breach the 65% cap (handbook weights); five are in years 2–4."],
+["bad","2","Compulsory modules with no PLO mapping: PSIR 310 and PSIR 311."],
+["o","12 / 13","BA modules already have a Board-level map — propagation, not invention."],
+["w","14 / 16","Outlines carry the AI + NG block, but none differentiates AI by assessment."]];
+
+const FIBAA=[
+["1.1","Subject-specific objectives & employability","Programme objectives convincing and aligned with framework and field?","CLOs and Part B links","2 / 16 carry the link","bad",true],
+["3.1.3","Conceptual coherence","Curriculum reflects objectives with balanced, connected courses?","CLO → PLO extract and Board map","2 / 16; two compulsory modules unmapped","bad",true],
+["3.1.4","Study & exam regulations","Rules complete, including AI and detection?","NG clause, AI tiers, scale, accommodation","Block 14 / 16; scale 5 / 16; tiers 0 / 16","warn"],
+["3.1.5","Examination & final thesis","Exams suited to outcomes, with a wide variety of formats?","CLO → instrument and weights","2 / 16; 7 / 13 breach 65% (handbook)","bad"],
+["3.2.1","Methods & scientific practice","Methodological competence and scientific work?","Method statements, research tasks","Stated 16 / 16; detailed 7 / 16","warn"],
+["3.3.1","Teaching & learning methodology","Plausible, varied, described per course?","Methods section","Generic in 301, 305, 401, 405","warn"],
+["3.3.2","Future & soft skills","Digital literacy, communication, presentation?","Simulations, debates, presentations","Present in several; not tagged to outcomes","warn"],
+["3.3.3","Course materials & literature","Current, aligned, accessible?","Reading lists","Strongest column in the set","ok"],
+["4.2.4","Inclusive & equitable education","Support for students in special circumstances?","Accommodation statement","1 / 16","bad"],
+["5.1","Quality assurance & development","Systematic use of outcomes data?","Results and improvement record","No results loop in any outline","bad"]];
+
+const ACTIONS=[
+[1,"Resolve map defects D1–D7, starting with blank rows for PSIR 310 and 311","FIBAA 3.1.3; Rule 1","Departmental Board","2026-11-14",true],
+[2,"Adopt the one-page block and propagate the Board map into the twelve mapped outlines","STAR 3.1, 10.1; FIBAA 3.1.3","QA Committee + coordinators","2026-11-28",true],
+[3,"Compress CLOs to 4–6; rebuild PSIR 301 and 305 before mapping","STAR 3.1; FIBAA 1.1","Course coordinators","2026-12-12",true],
+[4,"Insert NG rule, faculty link and course-specific assessment conditions in all 16 outlines","Faculty decision; FIBAA 3.1.4","Course coordinators","2026-11-14",true],
+[5,"Replace the uniform AI paragraph with a tier per instrument","AI policy; FIBAA 3.1.4, 3.2.1","Course coordinators","2026-11-28",true],
+[6,"Run the 65% arithmetic on every outline and re-weight the breaches","Faculty rule; FIBAA 3.1.5","Coordinators; QA verifies","2026-11-21",true],
+[7,"Publish grading scale (11 outlines) and accommodation statement (15 outlines)","STAR 1.6; FIBAA 4.2.4","Course coordinators","2026-11-28",false],
+[8,"Reconcile ECTS for 301, 305, 311, 401, 405; fix 405 prerequisite and calendar placements","FIBAA 3.1.3; integrity","Chair + coordinators","2026-12-12",false],
+[9,"Settle NC/NG terminology and the attendance-only case in the faculty circular","Rule 2","Chair / Faculty Council","2026-11-14",false],
+[10,"Refresh PSIR 406 and INTL 639; resolve INTL 522 / 603 duplication","STAR 4.1; integrity","Department","2027-01-31",false],
+[11,"Tag Autumn midterm and final instruments to CLOs; record outcome-level results","STAR 3.2, 3.3; FIBAA 5.1","Coordinators; QA compiles","2026-12-19",true]];
+
+const REWEIGHT=[["PSIR 203","Comparative data exercise using cross-national indicators","PS-PÇ 5"],["PSIR 303","Territorial policy memo on a live dispute","PS-PÇ 4"],["PSIR 311","Country-risk brief with a defended forecast","IR-PÇ 10; PS-PÇ 4"],["PSIR 405","Case memo on a pending dispute before an international body","IR-PÇ 9"],["PSIR 409","Portfolio of civil-society engagement with reflective note","PS-PÇ 6"],["PSIR 101 / 104","Short weekly writing or staged quiz sequence","STAR 2 / 4"]];
+
+/* ===================== HELPERS ===================== */
+const $=s=>document.querySelector(s);
+const yn=v=>v?'<span class="pill ok">✔</span>':'<span class="pill na">—</span>';
+const src=()=>document.querySelector('input[name=src]:checked').value;
+const w=(c,s)=>{const a=s==='hb'?c.hb:c.ol;return a?a:null};
+const sum=a=>a?a[0]+a[1]:null;
+function capPill(t){if(t==null)return'<span class="pill na">Not recorded</span>';if(t>65)return`<span class="pill bad">Breach ${t} (+${t-65})</span>`;if(t===65)return`<span class="pill warn">At cap 65</span>`;return`<span class="pill ok">Pass ${t}</span>`}
+function starReach(c){const r={};for(let k=1;k<=6;k++)r[k]=c.ir.some(x=>STAR_IR[k].includes(x))||c.ps.some(x=>STAR_PS[k].includes(x));return r}
+function colorFor(p){return p>=.8?'var(--ok)':p>=.4?'var(--warn)':'var(--bad)'}
+
+/* ===================== TABS ===================== */
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');$('#'+b.dataset.t).classList.add('active');location.hash=b.dataset.t;});
+if(location.hash){const b=document.querySelector(`#tabs button[data-t="${location.hash.slice(1)}"]`);if(b)b.click();}
+
+/* ===================== OVERVIEW ===================== */
+$('#findings').innerHTML=FINDINGS.map(f=>`<div class="card finding ${f[0]==='bad'?'':f[0]}"><div class="big">${f[1]}</div><div>${f[2]}</div></div>`).join('');
+$('#kpis').innerHTML=KPIS.map(k=>{const p=k[1]/k[2];return`<div class="krow"><div><div class="lbl">${k[0]} <span style="color:var(--muted)">· ${k[3]}</span></div><div class="bar"><span style="width:${p*100}%;background:${colorFor(p)}"></span></div></div><div class="val">${k[1]} / ${k[2]}</div></div>`}).join('');
+
+/* ===================== COURSES ===================== */
+function renderCourses(){
+  const q=$('#q').value.toLowerCase(),lv=$('#lvl').value,pr=$('#probs').checked,s=src();
+  const rows=C.filter(c=>(!lv||c.level===lv)&&(!q||(c.code+c.title+c.verdict).toLowerCase().includes(q))&&(!pr||(sum(w(c,s))||0)>=65));
+  $('#ctable').innerHTML=`<thead><tr><th>Course</th><th>Title</th><th>Yr</th><th>CLOs</th><th>PLO extract</th><th>Assess→CLO</th><th>AI+NG</th><th>Exam % (${s==='hb'?'handbook':'outline'})</th><th>Scale</th><th>Accom.</th><th>Current</th><th>Verdict</th></tr></thead><tbody>`+
+  rows.map(c=>`<tr class="click" onclick="openCourse('${c.code}')"><td><b>${c.code}</b>${c.defect?` <span class="pill bad">${c.defect}</span>`:''}</td><td>${c.title}</td><td>${c.year}</td><td>${c.clos}</td><td>${yn(c.plo)}</td><td>${yn(c.amap)}</td><td>${yn(c.aing)}</td><td>${capPill(sum(w(c,s)))}</td><td>${yn(c.scale)}</td><td>${yn(c.acc)}</td><td>${c.cur?yn(1):'<span class="pill bad">Stale</span>'}</td><td>${c.verdict}</td></tr>`).join('')+'</tbody>';
+}
+['q','lvl','probs'].forEach(id=>$('#'+id).addEventListener('input',renderCourses));
+
+function openCourse(code){
+  const c=C.find(x=>x.code===code),sr=starReach(c);
+  const hb=sum(c.hb),ol=sum(c.ol);
+  $('#mbody').innerHTML=`<h2>${c.code} — ${c.title}</h2><p class="sub">${c.level} · Year ${c.year} · ${c.verdict}</p>
+  <div class="kv">
+   <div>Required action</div><div><b>${c.action}</b></div>
+   <div>CLOs stated</div><div>${c.clos}</div>
+   <div>Exam weight — handbook</div><div>${c.hb?`${c.hb[0]} + ${c.hb[1]} = `:''}${capPill(hb)}</div>
+   <div>Exam weight — outline</div><div>${c.ol?`${c.ol[0]} + ${c.ol[1]} = `:''}${capPill(ol)} ${hb!=null&&hb!==ol?'<span class="pill warn">Documents disagree</span>':''}</div>
+   <div>ECTS (handbook / outline)</div><div>${c.ects?`${c.ects[0]} / ${c.ects[1]} ${c.ects[0]!==c.ects[1]?`<span class="pill warn">${c.ectsNote||'Unreconciled'}</span>`:'<span class="pill ok">Agree</span>'}`:'—'}</div>
+   <div>PLO extract · Assess→CLO</div><div>${yn(c.plo)} ${yn(c.amap)}</div>
+   <div>AI+NG · Scale · Accommodation</div><div>${yn(c.aing)} ${yn(c.scale)} ${yn(c.acc)}</div>
+   <div>STAR reach via PLOs</div><div>${c.ir.length+c.ps.length?Object.keys(sr).map(k=>`<span title="${STAR_N[k]}" class="pill ${sr[k]?'ok':'bad'}">S${k}</span>`).join(' '):'<span class="pill na">No mapping</span>'}</div>
+  </div>
+  ${c.ir.length?`<h3>BA IR outcomes mapped</h3><ul>${c.ir.map(i=>`<li><b>IR-PÇ ${i}</b> — ${IRT[i]}</li>`).join('')}</ul>`:''}
+  ${c.ps.length?`<h3>BA PS outcomes mapped</h3><ul>${c.ps.map(i=>`<li><b>PS-PÇ ${i}</b> — ${PST[i]}</li>`).join('')}</ul>`:''}
+  ${c.defect?`<div class="note amber"><b>${c.defect}:</b> ${DEFECTS.find(d=>d[0]===c.defect)[2]}</div>`:''}
+  ${c.obs.length?`<div class="note"><b>Observed in the 2026-27 outline (not in the report):</b><ul style="margin:6px 0 0">${c.obs.map(o=>`<li>${o}</li>`).join('')}</ul></div>`:''}`;
+  $('#modal').classList.add('open');
+}
+function closeModal(){$('#modal').classList.remove('open')}
+$('#modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* ===================== CAP ===================== */
+function renderCap(){
+  const s=src(),rows=C.filter(c=>w(c,s));
+  const ba=C.filter(c=>c.level==='BA'&&w(c,s));
+  const br=ba.filter(c=>sum(w(c,s))>65),br24=br.filter(c=>c.year!=='1'),at=ba.filter(c=>sum(w(c,s))===65);
+  const dis=C.filter(c=>c.hb&&sum(c.hb)!==sum(c.ol));
+  $('#capkpi').innerHTML=`
+   <div class="card finding"><div class="big">${br.length} / ${ba.length}</div>BA modules breach the cap</div>
+   <div class="card finding"><div class="big">${br24.length}</div>Breaches in years 2–4: ${br24.map(c=>c.code.replace('PSIR ','')).join(', ')||'none'}</div>
+   <div class="card finding w"><div class="big">${at.length}</div>At exactly 65 (no headroom): ${at.map(c=>c.code).join(', ')||'none'}</div>
+   <div class="card finding w"><div class="big">${dis.length} / 13</div>Courses where handbook and outline weights disagree</div>`;
+  $('#capchart').innerHTML=rows.map(c=>{const a=w(c,s),t=sum(a),o=s==='ol'&&c.hb&&sum(c.hb)!==t?` <span style="color:var(--muted);font-size:12px">(HB ${sum(c.hb)})</span>`:'';
+   return`<div class="caprow"><div><b>${c.code}</b><br><span style="font-size:12px;color:var(--muted)">Year ${c.year}</span></div>
+   <div class="captrack"><div class="m" style="width:${a[0]}%"></div><div class="f" style="left:${a[0]}%;width:${a[1]}%"></div><div class="line"></div><div class="txt">${t}%</div></div>
+   <div class="st">${capPill(t)}${o}</div></div>`}).join('');
+  $('#capnote').innerHTML=s==='hb'
+   ?'<b>Report basis.</b> These are the module handbook weights used in §8. The report notes that either the outlines match (and the course breaches) or they differ (and the documents disagree — a FIBAA 3.1.3 / 3.1.4 defect). Switch to the outline weights to see the check.'
+   :'<b>Outline check (Annex D, last column).</b> Weights read from the 2026-27 outlines. Where they differ from the handbook, the report treats the disagreement itself as a coherence finding. PG courses are shown for completeness; INTL 639 has no exams. Figures should be verified by coordinators before the Board relies on them.';
+  renderCourses();
+}
+document.querySelectorAll('input[name=src]').forEach(r=>r.onchange=renderCap);
+
+/* ===================== PLO MAP ===================== */
+(function(){
+  const ba=C.filter(c=>c.level==='BA');
+  let h='<thead><tr><th>Course</th>';
+  for(let i=1;i<=10;i++)h+=`<th title="IR-PÇ ${i}: ${IRT[i]}" ${i===1?'class="sep"':''}>IR${i}</th>`;
+  for(let i=1;i<=8;i++)h+=`<th title="PS-PÇ ${i}: ${PST[i]}" ${i===1?'class="sep"':''}>PS${i}</th>`;
+  for(let i=1;i<=6;i++)h+=`<th title="STAR ${i}: ${STAR_N[i]}" ${i===1?'class="sep"':''}>S${i}</th>`;
+  h+='</tr></thead><tbody>';
+  ba.forEach(c=>{const blank=!c.ir.length&&!c.ps.length,sr=starReach(c),f=FLAGS[c.code]||{};
+   h+=`<tr class="${blank?'blankrow':''}"><td><b>${c.code}</b>${c.defect?` <span class="pill bad">${c.defect}</span>`:''}</td>`;
+   for(let i=1;i<=10;i++){const k='IR'+i,cl=f[k]||(c.ir.includes(i)?'on':'');h+=`<td ${i===1?'class="sep"':''}><span class="cell ${cl}" title="${c.code} · IR-PÇ ${i}${cl==='over'?' — questionable claim':cl==='miss'?' — missing claim':''}"></span></td>`}
+   for(let i=1;i<=8;i++){const k='PS'+i,cl=f[k]||(c.ps.includes(i)?'on':'');h+=`<td ${i===1?'class="sep"':''}><span class="cell ${cl}" title="${c.code} · PS-PÇ ${i}${cl==='miss'?' — missing claim':''}"></span></td>`}
+   for(let i=1;i<=6;i++)h+=`<td ${i===1?'class="sep"':''}><span class="dot ${blank?'':sr[i]?'on':'off'}"></span></td>`;
+   h+='</tr>'});
+  $('#heat').innerHTML=h+'</tbody>';
+  $('#defects').innerHTML='<thead><tr><th>Defect</th><th>Course</th><th>What is wrong</th><th>Consequence</th><th>Action</th></tr></thead><tbody>'+
+   DEFECTS.map(d=>`<tr><td><span class="pill ${d[5]?'bad':'warn'}">${d[0]}</span></td><td><b>${d[1]}</b></td><td>${d[2]}</td><td>${d[3]}</td><td>${d[4]}</td></tr>`).join('')+'</tbody>';
+  $('#ects').innerHTML='<thead><tr><th>Course</th><th>Handbook</th><th>Outline</th><th>Status</th></tr></thead><tbody>'+
+   C.filter(c=>c.ects).map(c=>`<tr><td><b>${c.code}</b></td><td>${c.ects[0]}</td><td>${c.ects[1]}</td><td>${c.ects[0]===c.ects[1]?'<span class="pill ok">Agree</span>':`<span class="pill ${c.ectsNote?'warn':'bad'}">${c.ectsNote||'Unreconciled'}</span>`}</td></tr>`).join('')+'</tbody>';
+})();
+
+/* ===================== RULES / FIBAA ===================== */
+$('#reweight').innerHTML='<thead><tr><th>Course</th><th>Candidate instrument</th><th>CLO it would carry</th></tr></thead><tbody>'+REWEIGHT.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')+'</tbody>';
+$('#ftable').innerHTML='<thead><tr><th>Criterion</th><th>What the assessor asks</th><th>Where the outline answers</th><th>Status in the set</th></tr></thead><tbody>'+
+ FIBAA.map(f=>`<tr><td><b>${f[0]}</b> ${f[1]}${f[6]?' <span class="pill bad">Decisive</span>':''}</td><td>${f[2]}</td><td>${f[3]}</td><td><span class="pill ${f[5]}">${f[4]}</span></td></tr>`).join('')+'</tbody>';
+
+/* ===================== ACTIONS ===================== */
+const KEY='psir-align-actions-v2';
+let done=JSON.parse(localStorage.getItem(KEY)||'{}');
+function renderActions(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const open=ACTIONS.filter(a=>!done[a[0]]);
+  const overdue=open.filter(a=>new Date(a[4])<today).length;
+  const next=open.map(a=>new Date(a[4])).filter(d=>d>=today).sort((a,b)=>a-b)[0];
+  $('#actkpi').innerHTML=`<div class="card"><div class="big">${ACTIONS.length-open.length} / ${ACTIONS.length}</div>Marked complete (this browser)</div>
+   <div class="card finding ${overdue?'':'o'}"><div class="big">${overdue}</div>Overdue</div>
+   <div class="card finding w"><div class="big">${next?Math.round((next-today)/864e5)+' days':'—'}</div>To next deadline${next?' ('+next.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+')':''}</div>
+   <div class="card finding"><div class="big">${ACTIONS.filter(a=>a[5]).length}</div>Verdict-changing actions</div>`;
+  $('#atable').innerHTML='<thead><tr><th></th><th>#</th><th>Action</th><th>Lens / rule</th><th>Owner</th><th>Due</th><th>Status</th></tr></thead><tbody>'+
+   ACTIONS.map(a=>{const d=new Date(a[4]),days=Math.round((d-today)/864e5),isDone=!!done[a[0]];
+    const st=isDone?'<span class="pill ok">Done</span>':days<0?`<span class="pill bad">${-days} days overdue</span>`:days<=14?`<span class="pill warn">Due in ${days} days</span>`:`<span class="pill na">In ${days} days</span>`;
+    return`<tr class="${isDone?'done':''}"><td><input type="checkbox" ${isDone?'checked':''} onchange="toggleA(${a[0]},this.checked)"></td><td>${a[5]?'<span class="crit">●</span> ':''}${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}</td><td class="due">${d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</td><td>${st}</td></tr>`}).join('')+'</tbody>';
+}
+function toggleA(n,v){done[n]=v;localStorage.setItem(KEY,JSON.stringify(done));renderActions()}
+
+renderCap();renderActions();
+</script>
+</body>
+</html>
